@@ -44,7 +44,7 @@ const Accueil = ({ enseignements, router }) => {
 
 
   const showVideos = () => {
-    axios.get('https://basebiblique.org/api/videos',)
+    axios.get(`${API}/videos`,)
   .then(response => {
     let limit = response.data.length - 1
     let val = response.data[limit]
@@ -53,7 +53,7 @@ const Accueil = ({ enseignements, router }) => {
   };
 
   const showTheologie = () => {
-    axios.get('https://basebiblique.org/api/theologies',)
+    axios.get(`${API}/theologies`,)
   .then(response => {
     let newInfo = response.data;
     setTheologie(newInfo)
@@ -62,7 +62,7 @@ const Accueil = ({ enseignements, router }) => {
 
   const callPresentation = async () => {
 		try {
-			const res = await fetch(`https://basebiblique.org/api/presentation`);
+			const res = await fetch(`${API}/presentation`);
 			const data = await res.json();
       setPresentation(data)
 		} catch (err) {

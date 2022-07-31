@@ -15,7 +15,7 @@ app
       server.use(
         `/api`,
         createProxyMiddleware({
-          target: "https://basebiblique.org",
+          target: "http://localhost:8001",
           changeOrigin: true,
         })
       );
