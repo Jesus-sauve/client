@@ -10,7 +10,6 @@ import Link from 'next/link';
 import HeaderOther from '../../../components/HeaderOther';
 import { showPresentation, updatePresentation } from '../../../actions/presentation';
 import { withRouter } from 'next/router';
-import { useRouter } from 'next/router';
 import Router from 'next/router';
 import { Context } from '../../../context';
 
@@ -25,15 +24,6 @@ const Presentation = ({router}) => {
         body: '',
         formData: typeof window !== 'undefined' && new FormData(),
     });
-
-    const { state, dispatch } = useContext(Context);
-    const { user } = state;
-
-    useEffect(() => {
-      if (user === null || user.role.includes("Utilisateur")) {
-        router.push('/')
-      } 
-    }, [])
 
     const { error, success, formData, title } = values;
 

@@ -1,27 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import Footer from '../../../components/Footer';
-import Skeleton from 'react-loading-skeleton-2';
 import HeaderOther from '../../../components/HeaderOther';
 import Update from '../../../components/Enseignement/Update';
-import { Context } from '../../../context';
-import Noty from 'noty';
-import { useRouter } from "next/router";
 import Link from 'next/link';
 
-function Enseignement({ enseignement }) {
+function Enseignement() {
 
-  const router = useRouter();
-
-  
-  const { state, dispatch } = useContext(Context);
-  const { user } = state;
-
-  useEffect(() => {
-    if (user === null || user.role.includes("Utilisateur")) {
-      router.push('/')
-    } 
-  }, [])
   return (
     <>
       <Head>
@@ -30,7 +15,7 @@ function Enseignement({ enseignement }) {
       <HeaderOther />
         <div className="all_pages">
           <div className='container'>
-          <Link href="/admin">
+          <Link href="/admin/enseignement/gestion">
               <a className="btn m-2 btn-dark">
                   Retour
               </a> 

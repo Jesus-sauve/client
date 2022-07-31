@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Head from 'next/head';
 import Footer from '../../components/Footer';
-import dynamic from 'next/dynamic';
 import HeaderOther from '../../components/HeaderOther';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Router from 'next/router';
-import { getCookie, isAuth, signout } from '../../actions/auth';
 import '../../node_modules/react-quill/dist/quill.snow.css'
 import Noty from 'noty';
 import { showPresentation } from '../../actions/presentation';
@@ -139,7 +137,7 @@ const loadPresentation = () => {
                   {
                     presentation.map(item => (
                       <Link key={item._id} href={`/admin/presentation/${item.slug}`}>
-                        <a className={"nav-link" + isActiveOnglet('/admin')}>
+                        <a className="nav-link">
                             <span>{item.slug}</span>
                         </a> 
                       </Link>
@@ -148,27 +146,27 @@ const loadPresentation = () => {
                   </li>
                   <li className="nav-item">
                   <Link href="/admin/enseignement">
-                      <a className={"nav-link" + isActiveOnglet('/admin/enseignement')}>Enseignements</a> 
+                      <a className="nav-link">Enseignements</a> 
                   </Link>
                   </li>
                   <li className="nav-item">
                   <Link href="/admin/enseignement/categories">
-                      <a className={"nav-link" + isActiveOnglet('/admin/enseignement/categories')}>Catégories</a> 
+                      <a className="nav-link">Catégories</a> 
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link href="/admin/theologie">
-                      <a className={"nav-link" + isActiveOnglet('/admin/theologie')}>Théologie</a> 
+                      <a className="nav-link">Théologie</a> 
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link href="/admin/bible">
-                      <a className={"nav-link" + isActiveOnglet('/admin/bible')}>Bible en ligne</a> 
+                      <a className="nav-link">Bible en ligne</a> 
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link href="/admin/video">
-                      <a className={"nav-link" + isActiveOnglet('/admin/video')}>Vidéos</a> 
+                      <a className="nav-link">Vidéos</a> 
                   </Link>
                 </li>
                 

@@ -5,8 +5,6 @@ import Skeleton from 'react-loading-skeleton-2';
 import HeaderOther from '../../components/HeaderOther';
 import { withRouter } from 'next/router';
 import Link from 'next/link';
-import {API} from '../../config';
-import moment from 'moment';
 import 'moment/locale/fr';
 import {listEnseignementWithCategories} from '../../actions/enseignement';
 import Card from '../../components/Enseignement/Card';

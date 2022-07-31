@@ -187,31 +187,29 @@ function Navbar() {
                 <a className={"nav-link" + isActiveNav('/contact')}>Contact</a> 
             </Link>
             </li>
-            <li className='mt-5 mb-5'>
-                <Link href="/admin"><a className="btn btn-sm myBtn mx-2"><i className="fa-solid fa-user-shield"></i></a></Link>
-            </li>
             <li>
                 <p className="numero mx-2"><i className="fa-solid fa-phone mx-1"></i>+1 44 38 39 40 79</p>
             </li>
             <li>
                 <p className="mail mx-2"><i className="fa-solid fa-envelope mx-1"></i>basebiblique@hotmail.com</p>
             </li>
-            <div>
-                <ul className="navbar-nav onglet_2 list-inline">
-                    {user === null && (
-                        <Link href="/connexion"><a className="btn btn-sm myBtn px-3 mx-2 text-white"><i className="fas fa-braille"></i> Connexion</a></Link>
-                    )}
-                    {user !== null && (
+            <li>
+                {user === null && (
+                    <Link href="/connexion"><a className="btn btn-sm myBtn px-3 mx-2 text-white"><i className="fas fa-braille"></i> Connexion</a></Link>
+                )}
+            </li>
+            <li>
+                {user !== null && (
                     <a className="btn btn-sm myBtn px-3 mx-2 text-white" onClick={logout}><i className="fas fa-sign-out-alt"></i> Déconnexion</a>
-                    
-                    )}
-                    {user !== null && user.role.includes("Admin") && (
-                    <Link href="/admin">
-                        <a className="btn btn-sm myBtn px-3 mx-2 text-white"><i className="fas fa-lock"></i> Admin</a>
-                    </Link>
-                    )}
-                </ul>
-            </div>
+                )}
+            </li>
+            <li>
+                {user !== null && user.role.includes("Admin") && (
+                <Link href="/admin">
+                    <a className="btn btn-sm myBtn px-3 mx-2 text-white"><i className="fas fa-lock"></i> Admin</a>
+                </Link>
+                )}
+            </li>
         </div>
       </Drawer>
       

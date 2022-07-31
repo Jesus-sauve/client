@@ -1,7 +1,6 @@
 import "../node_modules/noty/lib/noty.css";  
 import "../node_modules/noty/lib/themes/mint.css";
 import "../node_modules/noty/lib/themes/bootstrap-v4.css";
-import Noty from 'noty';
 import 'antd/dist/antd.css';
 import '../public/css/new-style.css';
 import '../public/css/styles.css';

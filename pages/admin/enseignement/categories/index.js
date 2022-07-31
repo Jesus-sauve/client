@@ -5,9 +5,6 @@ import HeaderOther from '../../../../components/HeaderOther';
 import { create, getCategories, removeCategory } from '../../../../actions/category';
 import Link from 'next/link';
 import Noty from 'noty';
-import { Context } from '../../../../context';
-
-import { useRouter } from "next/router";
 
 function Categories() {
 
@@ -19,17 +16,6 @@ function Categories() {
         removed: false,
         reload: false
     })
-
-    const router = useRouter();
-    
-    const { state, dispatch } = useContext(Context);
-    const { user } = state;
-
-    useEffect(() => {
-      if (user === null || user.role.includes("Utilisateur")) {
-        router.push('/')
-      } 
-    }, [])
 
     const { name, error, success, categories, removed, reload } = values;
 

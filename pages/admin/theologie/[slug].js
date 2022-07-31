@@ -1,26 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import Footer from '../../../components/Footer';
 import HeaderOther from '../../../components/HeaderOther';
 import Update from '../../../components/Theologie/Update';
-import { Context } from '../../../context';
-import Noty from 'noty';
-import { useRouter } from "next/router";
 import Link from 'next/link';
 
-function Theologie({ theologie }) {
+function Theologie() {
 
-  const router = useRouter();
-
-  
-  const { state, dispatch } = useContext(Context);
-  const { user } = state;
-
-  useEffect(() => {
-    if (user === null || user.role.includes("Utilisateur")) {
-      router.push('/')
-    } 
-  }, [])
   return (
     <>
       <Head>
@@ -29,7 +15,7 @@ function Theologie({ theologie }) {
       <HeaderOther />
         <div className="all_pages">
           <div className='container'>
-          <Link href="/admin">
+          <Link href="/admin/theologie/gestion">
               <a className="btn m-2 btn-dark">
                   Retour
               </a> 

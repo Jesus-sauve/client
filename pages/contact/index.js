@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import Footer from '../../components/Footer';
 import HeaderOther from '../../components/HeaderOther';
-import { useForm } from 'react-hook-form';
 import { emailContactForm } from '../../actions/contact';
 import Noty from 'noty';
 import PhoneInput from 'react-phone-input-2';
@@ -68,8 +67,7 @@ const clickSubmit = e => {
                         <form className='form_custom' onSubmit={clickSubmit} style={{ width: 'auto', marginTop: '3em' }}>
                         
 
-                        <div className="row">
-                          <div className="col-md-6">
+                          <div className="col-md-12 col-sm-12">
                           <div className="form-floating mb-3">
 
                             <input 
@@ -87,13 +85,12 @@ const clickSubmit = e => {
                           </div>
                           </div>
 
-                          <div className="col-md-6">
+                          <div className="col-md-12 col-sm-12 mb-3">
                         <PhoneInput
                             placeholder="Saisissez votre numero de téléphone"
                             onChange={setPhone}
                             value={phone}
                             />
-                        </div>
                         </div>
                         
 

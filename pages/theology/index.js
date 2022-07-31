@@ -5,7 +5,7 @@ import renderHTML from 'react-render-html';
 import HeaderOther from '../../components/HeaderOther';
 import {list} from '../../actions/theologie';
 import { withRouter } from 'next/router';
-import { API, DOMAIN, APP_NAME } from '../../config';
+import { DOMAIN, APP_NAME } from '../../config';
 
 const Theology = ({ theologie }) => {
 

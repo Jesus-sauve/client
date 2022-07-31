@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Footer from '../../components/Footer';
-import Skeleton from 'react-loading-skeleton-2';
 import HeaderOther from '../../components/HeaderOther';
 import { withRouter } from 'next/router';
-import Link from 'next/link';
-import {API} from '../../config';
-import moment from 'moment';
-import 'moment/locale/fr';
 import { singleCategory } from'../../actions/category';
 import Card from '../../components/Enseignement/Card'
 import Search from '../../components/Enseignement/Search';

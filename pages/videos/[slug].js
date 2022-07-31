@@ -1,17 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import Footer from '../../components/Footer';
-import Skeleton from 'react-loading-skeleton-2';
 import HeaderOther from '../../components/HeaderOther';
-import { withRouter } from 'next/router';
 import Link from 'next/link';
 import moment from 'moment';
 import 'moment/locale/fr';
 import { singleVideo } from'../../actions/videos';
-import axios from 'axios';
-import { Context } from '../../context';
-import Noty from 'noty';
-import { API, DOMAIN, APP_NAME } from '../../config';
+import { DOMAIN, APP_NAME } from '../../config';
 
 const SingleVideo = ({ video, query }) => {
 

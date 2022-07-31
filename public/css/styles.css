@@ -22,6 +22,10 @@
   }
 }
 
+.contact_form .react-tel-input .form-control {
+  width: 100% !important;
+}
+
 .bg_image_other_header{
   background: url(../images/bible.jpg);
   background-repeat: no-repeat;

@@ -6,7 +6,7 @@ import Head from 'next/head';
 import renderHTML from 'react-render-html';
 import {list} from '../../actions/videos';
 import Link from 'next/link';
-import { API, DOMAIN, APP_NAME } from '../../config';
+import { DOMAIN, APP_NAME } from '../../config';
 import { withRouter } from 'next/router';
 
 const Videos = ({ videos, router }) => {
