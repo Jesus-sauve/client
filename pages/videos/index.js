@@ -3,7 +3,6 @@ import Footer from '../../components/Footer';
 import Skeleton from 'react-loading-skeleton-2';
 import HeaderOther from '../../components/HeaderOther';
 import Head from 'next/head';
-import renderHTML from 'react-render-html';
 import {list} from '../../actions/videos';
 import Link from 'next/link';
 import { DOMAIN, APP_NAME } from '../../config';
@@ -13,16 +12,16 @@ const Videos = ({ videos, router }) => {
 
   const head = () => (
     <Head>
-        <title>{APP_NAME} | Video</title>
+        <title>{APP_NAME} | Videos</title>
         <meta
             name="description"
-            content="Jésus lui dit: Je suis le chemin, la vérité, et la vie. Nul ne vient au Père que par moi."
+            content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
         />
         <link rel="canonical" href={`${DOMAIN}${router.pathname}`} />
         <meta property="og:title" content={`Retour aux fondements bibliques | ${APP_NAME}`} />
         <meta
             property="og:description"
-            content="Jésus lui dit: Je suis le chemin, la vérité, et la vie. Nul ne vient au Père que par moi."
+            content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
         />
         <meta property="og:type" content="webiste" />
         <meta property="og:url" content={`${DOMAIN}${router.pathname}`} />
@@ -30,7 +29,7 @@ const Videos = ({ videos, router }) => {
 
         <meta property="og:image" content={`${DOMAIN}/static/images/bible.jpg`} />
         <meta property="og:image:secure_url" content={`${DOMAIN}/static/images/bible.jpg`} />
-        <meta property="og:image:type" content="image/jpg" />
+        <meta property="og:image:type" content="bible/jpg" />
     </Head>
 );
 
@@ -52,19 +51,18 @@ const Videos = ({ videos, router }) => {
                 </> :
                 videos.map((video, i) => (
                   <div key={i} className="col-md-4">
-                  <div className="card" style={{ height: '460px' }}>
+                  <div className="card" style={{ height: '300px' }}>
                   <div className="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                  <img src="https://res.cloudinary.com/basebiblique/image/upload/v1658598522/video-thumbnail_muc9ab.jpg" className="card-img-top img-fluid" alt="Video"/>
                     <Link href={`/videos/${video.slug}`}>
                       <a>
                         <div className="mask"></div>
                       </a>
                     </Link>
+                  <img src="https://res.cloudinary.com/basebiblique/image/upload/v1658598522/video-thumbnail_muc9ab.jpg" className="card-img-top img-fluid" alt="Video"/>
                   </div>
                   
                     <div className="card-body">
                       <h5 className="card-title">{video.title}</h5>
-                      <div className="pb-3">{renderHTML(video.excerpt)}</div>
                     </div>
                   </div>
                 </div>
@@ -78,7 +76,7 @@ const Videos = ({ videos, router }) => {
         <div className='container'>
           <hr className="my-5" />
         </div>
-      <Footer />
+      <Footer/>
     </>
   );
 };

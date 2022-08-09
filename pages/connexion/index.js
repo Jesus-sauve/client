@@ -5,13 +5,36 @@ import HeaderOther from '../../components/HeaderOther';
 import Reveal from 'react-reveal/Fade';
 import Noty from 'noty';
 import axios from 'axios';
-import { API } from '../../config';
+import { API, APP_NAME, DOMAIN } from '../../config';
 import { SyncOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import Link from 'next/link';
 import { Context } from "../../context";
 
 function Connexion() {
+
+  const head = () => (
+    <Head>
+        <title>{APP_NAME} | Connexion</title>
+        <meta
+            name="description"
+            content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
+        />
+        <link rel="canonical" href={`${DOMAIN}${router.pathname}`} />
+        <meta property="og:title" content={`Retour aux fondements bibliques | ${APP_NAME}`} />
+        <meta
+            property="og:description"
+            content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
+        />
+        <meta property="og:type" content="webiste" />
+        <meta property="og:url" content={`${DOMAIN}${router.pathname}`} />
+        <meta property="og:site_name" content={`${APP_NAME}`} />
+  
+        <meta property="og:image" content={`${DOMAIN}/static/images/bible.jpg`} />
+        <meta property="og:image:secure_url" content={`${DOMAIN}/static/images/bible.jpg`} />
+        <meta property="og:image:type" content="bible/jpg" />
+    </Head>
+  );
 
   const router = useRouter();
 
@@ -41,10 +64,11 @@ const handleSubmit = async (e) => {
       payload: data,
     });
     new Noty({
-      type: 'success',
+      type: 'info',
+      theme: 'metroui',
       layout: 'topRight',
       text: `Connexion réussit`,
-      timeout: 3000
+      // timeout: 3000
     }).show();
     setLoading(false);
     router.push("/");
@@ -52,9 +76,10 @@ const handleSubmit = async (e) => {
   } catch (err) {
          new Noty({
         type: 'error',
+        theme: 'metroui',
         layout: 'topRight',
         text: err.response.data.error,
-        timeout: 3000
+        // timeout: 3000
       }).show();
       setLoading(false);
   }
@@ -63,9 +88,7 @@ const handleSubmit = async (e) => {
 
   return (
     <>
-    <Head>
-        <title>Basebiblique | Connexion</title>
-    </Head>
+    {head()}
     <HeaderOther />
         <div className="all_pages login_page">
             <div className='container'>
@@ -75,6 +98,13 @@ const handleSubmit = async (e) => {
                     <p>Merci de saisir votre e-mail et votre mot de passe afin de vous connecter</p>
 
                       <div className='formulaire'>
+                      <div className="row">
+                        <div className="col-md-6 col-sm-12 connexion_info">
+                          <h2 className='text-info'>Basebiblique</h2>
+                          <p>Réservé à l'administrateur</p>
+                          <p>Merci de vous connecter pour effectuer la modification des différentes pages</p>
+                        </div>
+                        <div className="col-md-6 col-sm-12 contact_form_formulaire">
                       <Reveal left>
                         <form className='form_custom' style={{ width: 'auto', marginTop: '3em' }} onSubmit={handleSubmit} autoComplete="false">
 
@@ -107,7 +137,7 @@ const handleSubmit = async (e) => {
                             <label htmlFor="passwordConnexion">Mot de passe*</label>
                           </div>
 
-                          <button type="submit" className="btn myBtn mb-4 text-white"  disabled={!email || !password || loading}>{loading ? <SyncOutlined spin /> : "Valider"}</button>
+                          <button type="submit" className="btn myBtn mb-4 text-black"  disabled={!email || !password || loading}>{loading ? <SyncOutlined spin /> : "Valider"}</button>
 
                           <p>* Champs obligatoires</p>
                           {/* <p className="text-center">
@@ -123,6 +153,10 @@ const handleSubmit = async (e) => {
                           </p>
                       </form>
                     </Reveal>
+                    </div>
+
+                    </div>
+
                   </div>
                 </div>
             </div>

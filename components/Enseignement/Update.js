@@ -22,7 +22,6 @@ const EnseignementUpdate = ({ router }) => {
         title: '',
         error: '',
         success: '',
-        formData: '',
         title: '',
         body: '',
         formData: typeof window !== 'undefined' && new FormData(),
@@ -98,13 +97,16 @@ const EnseignementUpdate = ({ router }) => {
             categories &&
             categories.map((c, i) => (
                 <li key={i} className="list-unstyled">
-                    <input
-                        onChange={handleToggle(c._id)}
-                        checked={findOutCategory(c._id)}
-                        type="checkbox"
-                        className="mr-2"
-                    />
-                    <label className="form-check-label">{c.name}</label>
+                    <div className="form-check form-switch">
+                        <input
+                            onChange={handleToggle(c._id)}
+                            checked={findOutCategory(c._id)}
+                            type="checkbox"
+                            className="form-check-input"
+                            role="switch"
+                        />
+                        <label className="form-check-label">{c.name}</label>
+                    </div>
                 </li>
             ))
         );
@@ -133,7 +135,7 @@ const EnseignementUpdate = ({ router }) => {
                 setValues({ ...values, error: data.error });
                 new Noty({
                     type: 'error',
-                    theme: 'mint',
+                    theme: 'metroui',
                     layout: 'topRight',
                     text: data.error,
                     timeout: 3000
@@ -144,8 +146,8 @@ const EnseignementUpdate = ({ router }) => {
                 setCategories([]);
                 Router.push(`/admin`);
                 new Noty({
-                    type: 'success',
-                    theme: 'bootstrap-v4',
+                    type: 'info',
+                    theme: 'metroui',
                     layout: 'topRight',
                     text: `Enseignement mis à jour`,
                     timeout: 3000
@@ -165,14 +167,15 @@ const EnseignementUpdate = ({ router }) => {
               <div className="row">
                 <div className='col-lg-8 col-md-8 col-sm-12'>
                   <span>Veuillez saisir le titre de l'enseignement</span>
-                  <div className="form-outline mb-4">
-                    <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required />
+                  <div className="form-floating mb-4">
+                    <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required placeholder="Titre de l'enseignement" />
+                    <label className="form-label" htmlFor="titreEnseignement">Titre de l'enseignement*</label>
                   </div>
                   <span>Veuillez saisir le contenu de l'enseignement</span>
                   <ReactQuill onChange={handleBody} value={body} className="quill_form" modules={QuillModules} formats={QuillFormats} placeholder="Saisissez le contenu de la page de l'enseignement..."/>
                 </div>
 
-                <div className='col-lg-4 col-md-4 col-sm-12'>
+                <div className='col-lg-4 col-md-4 col-sm-12' style={{ backgroundColor: '#c5a54621', padding: '20px', borderRadius: '5px' }}>
                   <span>Merci de choisir des catégories associées à l'enseignement</span>
                   <div>
                       <h5 className='couleur'>Catégories</h5>
@@ -198,7 +201,7 @@ const EnseignementUpdate = ({ router }) => {
                </div>
               </div>
 
-            <button className="submit_Form btn myBtn mt-2 text-white" type="submit">Modifier</button>
+            <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Modifier</button>
            
             </form>
 

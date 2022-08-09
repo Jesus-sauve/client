@@ -43,7 +43,6 @@ const [values, setValues] = useState({
     error: '',
     sizeError: '',
     success: '',
-    formData: '',
     title: '',
     hidePublishButton: false,
     formData: typeof window !== 'undefined' && new FormData(),
@@ -66,7 +65,7 @@ const publishBible = e => {
           setValues({ ...values, error: data.error });
           new Noty({
             type: 'error',
-            theme: 'mint',
+            theme: 'metroui',
             layout: 'topRight',
             text: data.error,
             timeout: 3000
@@ -77,7 +76,7 @@ const publishBible = e => {
           Router.push(`/admin`);
           new Noty({
             type: 'success',
-            theme: 'bootstrap-v4',
+            theme: 'metroui',
             layout: 'topRight',
             text: `Nouveau lien ajouté`,
             timeout: 3000
@@ -127,8 +126,8 @@ const handleBody = e => {
               <div className="row">
                 <div className='col-lg-8 col-md-8 col-sm-12'>
                   <span>Veuillez saisir un titre pour ce lien</span>
-                  <div className="form-outline mb-4">
-                    <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required />
+                  <div className="form-floating mb-4">
+                    <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required placeholder='Titre' />
                     <label className="form-label" htmlFor="titreEnseignement">Titre*</label>
                   </div>
                   <span>Veuillez saisir un contenu</span>
@@ -136,7 +135,7 @@ const handleBody = e => {
                 </div>
               </div>
 
-                <button className="submit_Form btn myBtn mt-2 text-white" onClick={publishBible} type="submit">Publier</button>
+                <button className="submit_Form btn myBtn mt-2 text-black" onClick={publishBible} type="submit">Publier</button>
             </form>
           </div>
         </div>

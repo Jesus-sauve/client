@@ -9,6 +9,7 @@ import 'moment/locale/fr';
 import {listEnseignementWithCategories} from '../../actions/enseignement';
 import Card from '../../components/Enseignement/Card';
 import Search from '../../components/Enseignement/Search';
+import { DOMAIN, APP_NAME } from '../../config';
 
 const Enseignements = ({ enseignements, categories, totalEnseignements, enseignementsLimit, enseignementSkip, router }) => {
 
@@ -36,7 +37,7 @@ const Enseignements = ({ enseignements, categories, totalEnseignements, enseigne
       size > 0 && 
       size >= limit && 
         (
-          <button onClick={loadMore} className='btn btn-black btn-lg'>
+          <button onClick={loadMore} className='btn btn-dark btn-lg'>
             Charger plus
           </button>
         )
@@ -71,22 +72,51 @@ const showAllEnseignements = () => {
 const showAllCategories = () => {
   return categories.map(item => (
     <Link key={item._id} href={`/category/${item.slug}`}>
-      <a className='btn btn-black m-2'>{item.name}</a>
+      <a className='btn btn-dark m-2'>{item.name}</a>
     </Link>
     ))
 }
 
+
+const head = () => (
+  <Head>
+      <title>{APP_NAME} | Enseignements</title>
+      <meta
+          name="description"
+          content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
+      />
+      <link rel="canonical" href={`${DOMAIN}${router.pathname}`} />
+      <meta property="og:title" content={`Retour aux fondements bibliques | ${APP_NAME}`} />
+      <meta
+          property="og:description"
+          content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
+      />
+      <meta property="og:type" content="webiste" />
+      <meta property="og:url" content={`${DOMAIN}${router.pathname}`} />
+      <meta property="og:site_name" content={`${APP_NAME}`} />
+
+      <meta property="og:image" content={`${DOMAIN}/static/images/bible.jpg`} />
+      <meta property="og:image:secure_url" content={`${DOMAIN}/static/images/bible.jpg`} />
+      <meta property="og:image:type" content="bible/jpg" />
+  </Head>
+);
+
+
   return (
     <React.Fragment>
-    <Head>
-        <title>Basebiblique | Enseignements</title>
-    </Head>
+    {head()}
       <HeaderOther />
         <div className="all_pages">
           <div className='container'>
             <div>
-              <h1 className='h1'>Enseignements</h1>
-              <Search />
+              <div className="row">
+                <div className="col-md-6">
+                  <h1 className='h1'>Enseignements</h1>
+                </div>
+                <div className="col-md-6">
+                  <Search />
+                </div>
+              </div>
             </div>
 
             <hr className="my-5" />

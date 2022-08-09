@@ -21,6 +21,10 @@ header {
   position: relative;
 }
 
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+  background: transparent !important;
+}
+
 .btn-descendre {
   position: absolute;
   top: 75%;
@@ -74,7 +78,7 @@ h1.sola_titre.text-white {
 .accueil_news_letter h1 {
   color: white;
     font-size: 40px;
-    font-family: 'Pacifico', cursive;
+    /* font-family: 'Pacifico', cursive; */
     transition: all 1s ease;
     padding: 15px;
 }
@@ -82,7 +86,7 @@ h1.sola_titre.text-white {
 
 /********     ECRITURE CAROUSEL   ************/
 .ecriture_carousel_1 h1 {
-  font-family: 'Pacifico', cursive;
+  /* font-family: 'Pacifico', cursive; */
   font-size: 80px;
   color: white;
 }
@@ -137,17 +141,22 @@ h1.sola_titre.text-white {
 .navbar-bg.scroll{
   background-color: black;
 }
-.scroll .header_top_1_logo a{
-  font-size: 20px;
+.scroll .header_top_1_logo a {
+  font-size: 25px;
   padding: 1px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .scroll .header_top_1 p {
-  font-size: 7px;
+  font-size: 10px;
+  padding: inherit;
+  padding-left: 15px;
 }
 
-.scroll .header_top_2_coordonnees{
-  font-size: 10px;
+.scroll .header_top_2_coordonnees {
+  font-size: 13px;
 }
 /*********   SCROLL HEADER  *********/
 
@@ -161,12 +170,13 @@ h1.sola_titre.text-white {
     background-color: rgba(0, 0, 0, 0.794);
 }
 .header_top_1_logo a {
-    color: white;
-    font-size: 40px;
-    font-family: 'Pacifico', cursive;
-    transition: all 1s ease;
-    padding: 15px;
-  }
+  color: white;
+  font-size: 30px;
+  /* font-family: 'Pacifico', cursive; */
+  transition: all 1s ease;
+  padding: 15px;
+  width: 85%;
+}
 .navbar-nav {
     display: flex;
 }
@@ -174,27 +184,29 @@ h1.sola_titre.text-white {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    padding-bottom: 10px;
 }
 
 .header_top_1 {
     display: flex;
 }
 .header_top_1 p {
-    color: #c5a546 !important;
+  color: white !important;
   margin: inherit;
   font-size: 13px;
-  width: 50%;
+  width: 100%;
   padding: 10px;
-  font-style: italic;
-  text-align: left;
+  text-align: center;
   display: flex;
   align-items: center;
   padding-left: 15px;
   transition: all 1s ease;
 }
 .header_top_2_coordonnees {
-    display: flex;
-    color: white;
+  display: flex;
+  color: white;
+  align-items: center;
+  justify-content: center;
 }
 .header_bottom {
     display: flex;
@@ -256,9 +268,9 @@ h1.sola_titre.text-white {
 
 
 /*********   H1 GENERAL  *********/
-h1.h1{
-  font-weight: 900;
-  font-size: 50px;
+h1.h1 {
+  font-weight: 800;
+  font-size: 40px;
   margin-bottom: 40px;
   color: black;
 }
@@ -299,6 +311,26 @@ section.theology {
   z-index: 1;
 }
 
+section.theology .swiper-button-next:after, section.theology .swiper-button-prev:after {
+  font-size: 15px !important;
+  color: black !important;
+}
+
+section.theology .swiper-button-next, section.theology .swiper-rtl .swiper-button-prev {
+  background: #c5a546 !important;
+  height: 25px !important;
+  border-radius: 50px !important;
+}
+section.theology .swiper-button-prev, section.theology .swiper-rtl .swiper-button-next {
+  background: #c5a546 !important;
+  height: 25px !important;
+  border-radius: 50px !important;
+}
+
+section.theology .swiper-button-next, section.theology .swiper-button-prev {
+  top: 57% !important;
+}
+
 section.theology video {
   position: absolute;
   top: 50%;
@@ -322,7 +354,7 @@ section.theology video {
 section.theology .theology_content {
   position: relative;
   z-index: 2;
-  padding: 4em 0;
+  padding: 1em 0 5em;
 }
 
 section.theology .overlay {
@@ -360,10 +392,17 @@ section.theology .overlay {
 }
 
 .trois_versets {
-  padding: 5em 0 1em;
+  padding: 5em 0 2em;
   display: flex;
   justify-content: space-between;
   z-index: 1;
+}
+
+.trois_versets .swiper-horizontal>.swiper-pagination-bullets, .trois_versets .swiper-pagination-bullets.swiper-pagination-horizontal, .trois_versets .swiper-pagination-custom, .trois_versets .swiper-pagination-fraction {
+  bottom: -7px !important;
+}
+.trois_versets span.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background: #c5a546 !important;
 }
 
 .verset_1 {
@@ -372,14 +411,15 @@ section.theology .overlay {
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: calc(100%/3);
+  width: 100%;
   color: white;
   padding: 2%;
 }
 
 .verset_1 p {
-  font-size: 20px;
+  font-size: 15px;
   height: 100px;
+  margin-bottom: inherit;
 }
 
 .verset_1 i {
@@ -390,7 +430,7 @@ section.theology .overlay {
 p.verset {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: row;
   font-style: italic;
   color: #c5a546;
@@ -409,6 +449,11 @@ p.verset {
 .theology .accordion-button:not(.collapsed) {
   color: #c5a546 !important;
 }
+
+ 
+.theology_content .swiper-horizontal>.swiper-pagination-bullets, .theology_content .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .theology_content .swiper-pagination-fraction{
+  display: none !important;
+}
 /*********   PARTIE THEOLOGY   *********/
 
 
@@ -419,10 +464,10 @@ p.verset {
 }
 .solas {
   background-color: #c5a54621;
-  height: 400px;
+  height: 300px;
 }
 .solas .carousel-item, .solas #introCarousel, .solas .carousel-inner, .solas .carousel-item, .solas .carousel-item.active {
-  height: 400px !important;
+  height:300px !important;
 }
 .solas .carousel-control-next-icon, .solas .carousel-control-prev-icon {
   background: black;
@@ -450,6 +495,10 @@ width: 60%;
   padding: 4em 0 0;
   position: relative;
 }
+.page_accueil .my_footer {
+  margin-top: -4em;
+}
+
 .my_footer h5{
   color: white !important;
   font-weight: 600;
@@ -508,7 +557,7 @@ width: 60%;
   color: #c5a546;
 }
 span.basebiblique_style_logo {
-  font-family: 'Pacifico', cursive;
+  /* font-family: 'Pacifico', cursive; */
 }
 
 a.monter {
@@ -526,8 +575,9 @@ a.monter {
 
 
 @media (min-width: 992px) and (max-width: 1399px) {
-.header_top_2_coordonnees p {
-  font-size: 10px;
+  .header_top_2_coordonnees p {
+    font-size: 13px;
+    margin-bottom: inherit;
 }
 .header_top_2 {
   width: 34%;
@@ -537,6 +587,17 @@ a.monter {
 }
 .onglet_1 a.nav-link {
   font-size: 13px;
+}
+}
+
+@media (max-width: 1199px) {
+.header_top_2_coordonnees p {
+  font-size: 9px;
+  margin-bottom: inherit;
+}
+.header_top_1 p {
+  font-size: 8px;
+  width: 50%;
 }
 }
 
@@ -572,8 +633,10 @@ a.monter {
   display: block;
   position: absolute;
   top: 10px;
-  right: 0;
+  right: 10px;
   transition: all .4s ease;
+  color: white;
+  background: black;
 }
 .scroll #side_bar{
   top: 10px;
@@ -597,14 +660,34 @@ a.monter {
 .onglet_mobile li {
   list-style: none;
 }
-h1.h1{
-  font-size: 30px;
+h1.h1 {
+  font-size: 25px;
   margin-bottom: 30px;
+  text-align: center;
 }
-.header_top_1_logo a{
-  font-size: 20px !important;
+.header_top_1_logo a {
+  font-size: 25px !important;
   padding: 1px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  top: 0px;
+  left: 50px;
 }
+
+.logo_header {
+  background-repeat: no-repeat;
+  background-size: 50px !important;
+  background-position: left top!important;
+  width: 112%;
+  height: 70px;
+  position: relative;
+  position: absolute;
+  left: 6px;
+}
+
 
 #introCarousel, .carousel-inner, .carousel-item, .carousel-item.active {
   height: auto;
@@ -612,6 +695,8 @@ h1.h1{
 .bas_presentation {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 .bas_presentation .row {
   width: 100%;
@@ -621,12 +706,14 @@ h1.h1{
 }
 .trois_versets {
   flex-direction: column;
+  padding: 5em 0 5em;
 }
 .verset_1 {
   width: 100%;
 }
 p.verset {
-  display: block;
+  display: flex;
+  align-items: center;
 }
 .verset_1 p {
   height: 60px;
@@ -645,6 +732,10 @@ iframe.ql-video {
   width: 100% !important;
   height: 20rem !important;
 }
+.scroll_button {
+  display: none !important;
+}
+
 }
 
 
@@ -668,7 +759,9 @@ h1.sola_titre.text-white {
   font-size: 20px;
 }
 .verset_1 p {
-  height: 110px;
+  /* height: 110px; */
+  display: flex;
+  align-items: center;
 }
 .solas .carousel-caption p {
   font-size: 11px;
@@ -698,9 +791,40 @@ h1.sola_titre.text-white {
 .contact_form .formulaire {
   padding: initial;
 }
+.bg_image_other_header h1 {
+  font-size: 35px !important;
+}
+.bg_image_other_header p {
+  font-size: 15px !important;
+}
+}
+
+@media (max-width: 600px) {
+.contact_form .formulaire {
+  padding: 0 0% !important;
+}
+.contact_form {
+  padding: 7% 5% !important;
+}
 }
 /********* MOBILE *********/
 
 
+.trois_versets .swiper {
+  margin-left: initial !important;
+  margin-right: initial !important;
+}
 
 
+
+
+.footer_contact .form-floating>label {
+  top: -8px !important;
+}
+.footer_contact .form-floating>.form-control, .footer_contact .form-floating>.form-select {
+  height: calc(2.5rem + 2px) !important;
+}
+
+.footer_contact textarea#message {
+  height: 100px !important;
+}

@@ -11,7 +11,6 @@ import HeaderOther from '../../../components/HeaderOther';
 import { showPresentation, updatePresentation } from '../../../actions/presentation';
 import { withRouter } from 'next/router';
 import Router from 'next/router';
-import { Context } from '../../../context';
 
 const Presentation = ({router}) => {
     const [body, setBody] = useState('');
@@ -19,7 +18,6 @@ const Presentation = ({router}) => {
         title: '',
         error: '',
         success: '',
-        formData: '',
         title: '',
         body: '',
         formData: typeof window !== 'undefined' && new FormData(),
@@ -65,6 +63,7 @@ const Presentation = ({router}) => {
                 setValues({ ...values, error: data.error })
                 new Noty({
                     type: 'error',
+                    theme: 'metroui',
                     layout: 'topRight',
                     text: data.error
                   }).show();
@@ -72,7 +71,8 @@ const Presentation = ({router}) => {
               Router.replace(`/`);
                 setValues({ ...values, title: '', success: "Text de présentation créé" })
                 new Noty({
-                    type: 'success',
+                    type: 'info',
+                    theme: 'metroui',
                     layout: 'topRight',
                     text: `Texte de présentation ajouté`,
                 }).show();
@@ -90,22 +90,24 @@ const Presentation = ({router}) => {
         <div className="all_pages presentation_slug">
           <div className='container'>
             <Link href="/admin">
-                <a className="btn btn-dark">
+                <a className="btn btn-dark btn-retour">
                     Retour
                 </a> 
             </Link>
-            <h4 className='my-5 titres_bas_presentation'><strong>Modification du texte de présentation</strong></h4>
-            <hr className="my-5" />
+            <h4 className='my-5 titres_bas_presentation text-black'><strong>Modification du texte de présentation</strong></h4>
 
             <form onSubmit={editPresentation}>
               <span>Veuillez saisir le titre du text de Présentation</span>
-              <div className="form-outline mb-4">
-                <input onChange={handleChange('title')} type="text" value={title} className="form-control" required />
+
+              <div className="form-floating mb-4">
+                <input onChange={handleChange('title')} type="text" id='presentationTexte' value={title} className="form-control" required placeholder="Entrez le titre du texte de présentation" />
+                <label htmlFor="presentationTexte">Entrez le titre du texte de présentation*</label>
               </div>
+
               <span>Veuillez saisir le text de Présentation</span>
               <ReactQuill className="quill_form" value={body || " "} modules={QuillModules} formats={QuillFormats} onChange={handleBody} placeholder="Saisissez le contenu de la page de présentation..."/>
 
-                <button className="submit_Form btn myBtn mt-2" type="submit">Publier</button>
+                <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Publier</button>
             </form>
           </div>
         </div>

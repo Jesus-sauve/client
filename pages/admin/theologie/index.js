@@ -10,6 +10,7 @@ import { QuillModules, QuillFormats } from '../../../helpers/quil';
 import HeaderOther from '../../../components/HeaderOther';
 import Link from 'next/link';
 import { createTheologie } from '../../../actions/theologie';
+import { all_sous_Theme } from '../../../actions/theologieSousTheme';
 import Router from 'next/router';
 import { Context } from '../../../context';
 
@@ -38,12 +39,15 @@ function Theologie({ router }) {
     }
 };
 
+const [sousThemes, setSousThemes] = useState([]);
+const [checked, setChecked] = useState([]); // categories
+
 const [body, setBody] = useState(blogFromLS());
 const [values, setValues] = useState({
     error: '',
     sizeError: '',
     success: '',
-    formData: '',
+    formData: typeof window !== 'undefined' && new FormData(),
     title: '',
     hidePublishButton: false
 });
@@ -51,21 +55,55 @@ const [values, setValues] = useState({
 const { error, sizeError, success, formData, title, hidePublishButton } = values;
 
 useEffect(() => {
-  setValues({ ...values, formData: new FormData() });
+  setValues({ ...values, formData});
+  initSousThemes();
 }, [router]);
 
+const initSousThemes = () => {
+  all_sous_Theme().then(data => {
+      if (data.error) {
+          setValues({ ...values, error: data.error });
+      } else {
+          setSousThemes(data);
+      }
+  });
+};
 
+const handleToggle = t => () => {
+  setValues({ ...values, error: '' });
+        
+  const clickedTheme = checked.indexOf(t);
+  const sousThemes = [...checked]
+
+  if (clickedTheme === -1) {
+    sousThemes.push(t);
+  } else {
+    sousThemes.splice(clickedTheme, 1);
+  }
+  setChecked(sousThemes);
+  formData.set('theologieSousThemes', sousThemes);
+};
+
+const showSousThemes = () => {
+  return ( sousThemes &&
+      sousThemes.map((t, i) => (
+          <div key={i} className='form-check form-switch'>
+              <input onChange={handleToggle(t._id)} className="form-check-input" type="checkbox" id={t.name} role="switch" />
+              <label className="form-check-label" htmlFor={t.name}>{t.name}</label>
+          </div>
+      ))
+  );
+};
 
 const publishTheologie = e => {
 
   e.preventDefault();
-  // console.log('ready to publishBlog');
   createTheologie(formData).then(data => {
       if (data.error) {
           setValues({ ...values, error: data.error });
           new Noty({
             type: 'error',
-            theme: 'mint',
+            theme: 'metroui',
             layout: 'topRight',
             text: data.error,
             timeout: 3000
@@ -73,10 +111,10 @@ const publishTheologie = e => {
       } else {
           setValues({ ...values, title: '', error: '', success: "Nouvel enseignement ajouté" });
           setBody('');
-          Router.push(`/admin`);
+          Router.push(`/admin/theologie`);
           new Noty({
-            type: 'success',
-            theme: 'bootstrap-v4',
+            type: 'information',
+            theme: 'metroui',
             layout: 'topRight',
             text: `Nouvel enseignement ajouté`,
             timeout: 3000
@@ -119,23 +157,41 @@ const handleBody = e => {
                     Gestion des enseignements
                 </a> 
             </Link>
+            <Link href="/admin/theologie/theme">
+                <a className="btn m-2 btn-dark">
+                    Gestion des thèmes
+                </a> 
+            </Link>
+            <Link href="/admin/theologie/sous-theme">
+                <a className="btn m-2 btn-dark">
+                    Gestion des sous thèmes
+                </a> 
+            </Link>
             <h1 className='h1'>Théologie</h1>
-            
+            <h3>Publier un enseignement</h3>
             <form >
 
               <div className="row">
-                <div className='col-lg-8 col-md-8 col-sm-12'>
+                <div className='col-lg-8 col-md-8 col-sm-12 mt-2'>
                   <span>Veuillez saisir le titre de l'enseignement</span>
-                  <div className="form-outline mb-4">
-                    <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required />
-                    <label className="form-label" htmlFor="titreEnseignement">Titre*</label>
+
+                  <div className="form-floating mt-4 mb-4">
+                    <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control input-form" required autoComplete="new-title" placeholder="Entrez le titre de l'enseignement" />
+                    <label className="form-label" htmlFor="titreEnseignement">Entrez le titre de l'enseignement*</label>
                   </div>
+
                   <span>Veuillez saisir le contenu de l'enseignement</span>
                   <ReactQuill onChange={handleBody} value={body} className="quill_form" modules={QuillModules} formats={QuillFormats} placeholder="Saisissez le contenu de la page de l'enseignement..."/>
                 </div>
-              </div>
 
-                <button className="submit_Form btn myBtn mt-2 text-white" onClick={publishTheologie} type="submit">Publier</button>
+                <div className='col-lg-4 col-md-4 col-sm-12' style={{ backgroundColor: '#c5a54621', padding: '20px', borderRadius: '5px' }}>
+                  <h5 className='text-center mb-5'><strong>Merci de cocher l'un des thèmes présents ci-dessous</strong></h5>
+                    {showSousThemes()}
+                    
+                </div>
+
+              </div>
+                <button className="submit_Form btn myBtn mt-2 text-black" onClick={publishTheologie} type="submit">Publier</button>
             </form>
           </div>
         </div>

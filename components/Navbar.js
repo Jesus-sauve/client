@@ -45,7 +45,8 @@ function Navbar() {
     window.localStorage.removeItem("user");
     const { data } = await axios.get(`${API}/logout`);
     new Noty({
-        type: 'success',
+        type: 'info',
+        theme: 'metroui',
         layout: 'topRight',
         text: `Vous êtes déconnecté.`,
         timeout: 3000
@@ -66,17 +67,19 @@ function Navbar() {
         <div className="container header_top ">
             <div className="header_top_1">
                 <div className="header_top_1_logo">
+                    {/* <img src="./images/logo.png" alt="logo" style={{ width: 'auto', height: "70px" }} /> */}
+                    <div className='logo_header'></div>
                 <Link href="/">
                 <a>Base biblique</a> 
                 </Link>
                 </div>
-                <p>L'Évangile est une puissance de Dieu pour le salut de qui conque croit...</p>
+                <p>L'Évangile est une puissance de Dieu pour le salut de quiconque croit ...</p>
             </div>
 
             <div className="header_top_2">
                 <div className="header_top_2_coordonnees">
-                    <p className="numero mx-2"><i className="fa-solid fa-phone mx-1"></i>+1 44 38 39 40 79</p>
-                    <p className="mail mx-2"><i className="fa-solid fa-envelope mx-1"></i>basebiblique@hotmail.com</p>
+                    <p className="numero mx-2"><i className="fa-solid fa-phone mx-1"></i>+1 (443) 839-4079</p>
+                    <p className="mail mx-2"><i className="fa-solid fa-envelope mx-1"></i>basebiblique@gmail.com</p>
                 </div>
             </div>
         </div>
@@ -94,8 +97,8 @@ function Navbar() {
                 </Link>
                 </li>
                 <li className="nav-item">
-                <Link href="/theology">
-                    <a className={"nav-link" + isActiveNav('/theology')}>Théologie</a> 
+                <Link href="/theologie">
+                    <a className={"nav-link" + isActiveNav('/theologie')}>Théologie</a> 
                 </Link>
                 </li>
                 <li className="nav-item">
@@ -123,17 +126,37 @@ function Navbar() {
             <div>
                 <ul className="navbar-nav onglet_2 list-inline">
                     {user === null && (
-                        <Link href="/connexion"><a className="btn btn-sm myBtn px-3 mx-2 text-white"><i className="fas fa-braille"></i> Connexion</a></Link>
+                        <Link href="/connexion"><a className="btn btn-sm myBtn px-3 mx-2 text-black"><i className="fas fa-braille"></i> Connexion</a></Link>
                     )}
+                   
+
                     {user !== null && (
-                    <a className="btn btn-sm myBtn px-3 mx-2 text-white" onClick={logout}><i className="fas fa-sign-out-alt"></i> Déconnexion</a>
-                    
+                    <div className="dropdown">
+                    <a
+                        className="btn myBtn text-black dropdown-toggle"
+                        href="#"
+                        role="button"
+                        id="dropdownMenuLink"
+                        data-mdb-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        Administration
+                    </a>
+
+                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li>
+                            <Link href="/admin">
+                                <a className="btn btn-dark"><i className="fas fa-lock"></i> Gestionnaire</a>
+                            </Link>
+                        </li>
+                        <li>
+                            <a className="btn btn-dark my-2" onClick={logout}><i className="fas fa-sign-out-alt"></i> Déconnexion</a>    
+                        </li>
+                    </ul>
+                    </div>
+
                     )}
-                    {user !== null && user.role.includes("Admin") && (
-                    <Link href="/admin">
-                        <a className="btn btn-sm myBtn px-3 mx-2 text-white"><i className="fas fa-lock"></i> Admin</a>
-                    </Link>
-                    )}
+
                 </ul>
             </div>
                 
@@ -163,8 +186,8 @@ function Navbar() {
             </Link>
             </li>
             <li className="nav-item">
-            <Link href="/theology">
-                <a className={"nav-link" + isActiveNav('/theology')}>Théologie</a> 
+            <Link href="/theologie">
+                <a className={"nav-link" + isActiveNav('/theologie')}>Théologie</a> 
             </Link>
             </li>
             <li className="nav-item">
@@ -195,19 +218,19 @@ function Navbar() {
             </li>
             <li>
                 {user === null && (
-                    <Link href="/connexion"><a className="btn btn-sm myBtn px-3 mx-2 text-white"><i className="fas fa-braille"></i> Connexion</a></Link>
-                )}
-            </li>
-            <li>
-                {user !== null && (
-                    <a className="btn btn-sm myBtn px-3 mx-2 text-white" onClick={logout}><i className="fas fa-sign-out-alt"></i> Déconnexion</a>
+                    <Link href="/connexion"><a className="btn btn-sm myBtn px-3 mx-2 text-black"><i className="fas fa-braille"></i> Connexion</a></Link>
                 )}
             </li>
             <li>
                 {user !== null && user.role.includes("Admin") && (
                 <Link href="/admin">
-                    <a className="btn btn-sm myBtn px-3 mx-2 text-white"><i className="fas fa-lock"></i> Admin</a>
+                    <a className="btn btn-sm btn-black my-2 text-black"><i className="fas fa-lock"></i> Administration</a>
                 </Link>
+                )}
+            </li>
+            <li>
+                {user !== null && (
+                    <a className="btn btn-sm btn-black my-2 text-black" onClick={logout}><i className="fas fa-sign-out-alt"></i> Déconnexion</a>
                 )}
             </li>
         </div>

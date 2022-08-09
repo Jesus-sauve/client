@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Navbar from './Navbar';
 import Link from 'next/link';
 
 function Header() {
+
+ 
   return (
     <header>
       <Navbar />
@@ -42,7 +44,7 @@ function Header() {
                       <h2 className='text-white'>Découvrez nos enseignements</h2><br />
                       <div className="text-center mb-3">
                       <Link href="/enseignements">
-                        <a className="btn btn-sm myBtn px-3 mx-2 text-black"> Enseignements</a>
+                        <a className="btn myBtn px-3 mx-2 text-black"> Enseignements</a>
                       </Link>
                       </div>
 
@@ -71,6 +73,7 @@ function Header() {
           </div>
         </div>
       </div>
+      
     </header>
   )
 }

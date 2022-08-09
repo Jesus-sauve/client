@@ -7,8 +7,33 @@ import Noty from 'noty';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { SyncOutlined } from "@ant-design/icons";
+import { APP_NAME, DOMAIN } from '../../config';
+import { withRouter } from 'next/router';
 
-function Contact() {
+const Contact = ({ router }) => {
+
+  const head = () => (
+    <Head>
+        <title>{APP_NAME} | Contact</title>
+        <meta
+            name="description"
+            content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
+        />
+        <link rel="canonical" href={`${DOMAIN}${router.pathname}`} />
+        <meta property="og:title" content={`Retour aux fondements bibliques | ${APP_NAME}`} />
+        <meta
+            property="og:description"
+            content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
+        />
+        <meta property="og:type" content="webiste" />
+        <meta property="og:url" content={`${DOMAIN}${router.pathname}`} />
+        <meta property="og:site_name" content={`${APP_NAME}`} />
+  
+        <meta property="og:image" content={`${DOMAIN}/static/images/bible.jpg`} />
+        <meta property="og:image:secure_url" content={`${DOMAIN}/static/images/bible.jpg`} />
+        <meta property="og:image:type" content="bible/jpg" />
+    </Head>
+  );
 
 const [message, setMessage] = useState("");
   const [name, setName] = useState("");
@@ -31,8 +56,10 @@ const clickSubmit = e => {
               setSent(false);
               new Noty({
                 type: 'error',
+                theme: 'metroui',
                 layout: 'topRight',
-                text: data.error
+                text: data.error,
+                timeout: 3000
               }).show();
             } else {
                 setName("");
@@ -40,9 +67,11 @@ const clickSubmit = e => {
                 setPhone("");
                 setMessage("");
                 new Noty({
-                  type: 'success',
+                  type: 'info',
+                  theme: 'metroui',
                   layout: 'topRight',
-                  text: "Votre message a bien été envoyé"
+                  text: "Votre message a bien été envoyé",
+                  timeout: 3000
                 }).show();
                 setSent(false);
             }
@@ -52,15 +81,23 @@ const clickSubmit = e => {
 
   return (
     <>
-    <Head>
-        <title>Basebiblique | Contact</title>
-    </Head>
+    {head()}
     <HeaderOther />
         <div className="all_pages">
             <div className='container'>
                 <div className='contact_form'>
 
                     <h1 className='h1'>Formulaire de contact</h1>
+
+                    <div className="row">
+
+                    <div className="col-md-6 contact_page_info">
+                      <p className='text-start'><strong>Merci de contacter via nos numéros de téléphone, appel direct ou par whatsapp.<br/> Vous pouvez aussi nous laisser un message via le formulaire de contact</strong></p><br /><br />
+                      <p className='text-start'><strong><i className="fa-solid fa-envelope-circle-check"></i> Basebiblique@gmail.com</strong></p>
+                      <p className='text-start'><strong><i className="fa-solid fa-square-phone"></i> +1 (443) 839-4079 / +1 (717) 205-9660</strong></p>
+                      <p className='text-start'><strong><i className="fa-brands fa-whatsapp"></i> +212 701-123199</strong></p>
+                    </div>
+                    <div className="col-md-6 contacp_page_form">
                     <p>Merci de remplir ce formulaire de contact afin de nous faire part de votre demande.</p>
 
                       <div className='formulaire'>
@@ -114,10 +151,16 @@ const clickSubmit = e => {
                             <label htmlFor="message">Merci de saisir votre message</label>
                           </div>
 
-                        <button type="submit" className="btn myBtn mb-4">{sent ? <SyncOutlined spin /> : "Envoyer"}</button>
+                        <button type="submit" className="btn myBtn mb-4 text-black">{sent ? <SyncOutlined spin /> : "Envoyer"}</button>
 
                         <p>* Champs obligatoires</p>
                     </form>
+
+                    </div>
+                    </div>
+
+
+
                   </div>
                 </div>
             </div>
@@ -130,4 +173,4 @@ const clickSubmit = e => {
   )
 }
 
-export default Contact;
+export default withRouter(Contact);

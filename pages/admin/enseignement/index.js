@@ -48,7 +48,7 @@ const [values, setValues] = useState({
     error: '',
     sizeError: '',
     success: '',
-    formData: '',
+    formData: typeof window !== 'undefined' && new FormData(),
     title: '',
     hidePublishButton: false
 });
@@ -56,7 +56,7 @@ const [values, setValues] = useState({
 const { error, sizeError, success, formData, title, hidePublishButton } = values;
 
 useEffect(() => {
-  setValues({ ...values, formData: new FormData() });
+  setValues({ ...values, formData });
   initCategories();
 }, [router]);
 
@@ -80,7 +80,7 @@ const publishEnseignement = e => {
           setValues({ ...values, error: data.error });
           new Noty({
             type: 'error',
-            theme: 'mint',
+            theme: 'metroui',
             layout: 'topRight',
             text: data.error,
             timeout: 3000
@@ -88,11 +88,11 @@ const publishEnseignement = e => {
       } else {
           setValues({ ...values, title: '', error: '', success: "Nouvel enseignement créé" });
           setBody('');
-          setCategories([]);
+          // setCategories([]);
           Router.push(`/admin`);
           new Noty({
-            type: 'success',
-            theme: 'bootstrap-v4',
+            type: 'info',
+            theme: 'metroui',
             layout: 'topRight',
             text: `Nouvel enseignement créé`,
             timeout: 3000
@@ -131,7 +131,6 @@ const handleToggle = c => () => {
   } else {
       all.splice(clickedCategory, 1);
   }
-  console.log(all);
   setChecked(all);
   formData.set('categories', all);
 };
@@ -141,8 +140,8 @@ const showCategories = () => {
       categories &&
       categories.map((c, i) => (
           <li key={i} className="list-unstyled">
-              <div className="form-check">
-                <input onChange={handleToggle(c._id)} className="form-check-input mr-2" type="checkbox" id={c.name} />
+              <div className="form-check form-switch">
+                <input onChange={handleToggle(c._id)} className="form-check-input" type="checkbox" id={c.name} role="switch" />
                 <label className="form-check-label" htmlFor={c.name}>{c.name}</label>
               </div>
           </li>
@@ -175,15 +174,17 @@ const showCategories = () => {
               <div className="row">
                 <div className='col-lg-8 col-md-8 col-sm-12'>
                   <span>Veuillez saisir le titre de l'enseignement</span>
-                  <div className="form-outline mb-4">
-                    <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required />
-                    <label className="form-label" htmlFor="titreEnseignement">Titre*</label>
+
+                  <div className="form-floating mb-4">
+                    <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required placeholder="Entrez le titre de l'enseignement" />
+                    <label className="form-label" htmlFor="titreEnseignement">Entrez le titre de l'enseignement*</label>
                   </div>
+
                   <span>Veuillez saisir le contenu de l'enseignement</span>
                   <ReactQuill onChange={handleBody} value={body} className="quill_form" modules={QuillModules} formats={QuillFormats} placeholder="Saisissez le contenu de la page de l'enseignement..."/>
                 </div>
 
-                <div className='col-lg-4 col-md-4 col-sm-12'>
+                <div className='col-lg-4 col-md-4 col-sm-12' style={{ backgroundColor: '#c5a54621', padding: '20px', borderRadius: '5px' }}>
                   <span>Merci de choisir des catégories associées à l'enseignement</span>
                   <div>
                       <h5 className='couleur'>Catégories</h5>
@@ -206,14 +207,13 @@ const showCategories = () => {
                      
                 </div>
 
-
                </div>
               </div>
 
               
 
 
-                <button className="submit_Form btn myBtn mt-2 text-white" onClick={publishEnseignement} type="submit">Publier</button>
+                <button className="submit_Form btn myBtn mt-2 text-black" onClick={publishEnseignement} type="submit">Publier</button>
             </form>
           </div>
         </div>

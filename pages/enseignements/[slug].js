@@ -27,7 +27,7 @@ const SingleEnseignement = ({ enseignement, query }) => {
 
         <meta property="og:image" content={`${DOMAIN}/static/images/bible.jpg`} />
         <meta property="og:image:secure_url" content={`${DOMAIN}/static/images/bible.jpg`} />
-        <meta property="og:image:type" content="image/jpg" />
+        <meta property="og:image:type" content="bible/jpg" />
     </Head>
 );
 
@@ -47,7 +47,7 @@ const SingleEnseignement = ({ enseignement, query }) => {
 
   const showRelatedEnseignement = () => {
     return related.map((r) => (
-       <div className='col-md-4' key={r._id}>
+       <div className='col-md-4 mx-2' key={r._id}>
           <div className="card" style={{width: "350px"}}>
             <section>
               <Link href={`/enseignements/${r.slug}`}>
@@ -60,7 +60,7 @@ const SingleEnseignement = ({ enseignement, query }) => {
               </Link>
             </section>
 
-            <div className="card-body" style={{ height:'13rem' }}>
+            <div className="card-body" style={{ height:'12rem' }}>
               <section>
                 <Link href={`/enseignements/${r.slug}`}>
                     <h5 className='card-title text-danger'>{r.title}</h5>
@@ -71,7 +71,7 @@ const SingleEnseignement = ({ enseignement, query }) => {
 
             <div className="card-body text-center">
             <Link href={`/enseignements/${r.slug}`}>
-                <a className='btn myBtn text-white'>Lire plus</a>
+                <a className='btn myBtn text-black mb-3'>Lire plus</a>
               </Link>
 
               <p className="mark ml-1 p-1 fs-6">

@@ -46,15 +46,16 @@ const searchedEnseignements = (results = []) => {
 const searchForm = () => (
     <form onSubmit={searchSubmit}>
         <div className="row">
-            <div className="col-md-10">
-                <input type="search" className="form-control search_bar" placeholder="Merci de saisir le titre de l'enseignement que vous recherchez" onChange={handleChange} required />
+            <div className="col-md-10 search_bar">
+                <input type="search" className="form-control search_bar" placeholder="Recherche" onChange={handleChange} required />
+
+                <div className="col-md-2 search_button">
+                    <button className="btn btn-dark btn-block" type="submit">
+                        <i className="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
             </div>
 
-            <div className="col-md-2">
-                <button className="btn btn-block btn-black" type="submit">
-                    Rechercher
-                </button>
-            </div>
         </div>
     </form>
 );

@@ -5,9 +5,12 @@ import HeaderOther from '../../components/HeaderOther';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Router from 'next/router';
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import '../../node_modules/react-quill/dist/quill.snow.css'
 import Noty from 'noty';
-import { showPresentation } from '../../actions/presentation';
+import { QuillModules, QuillFormats } from '../../helpers/quil';
+import { createPresentation, showPresentation } from '../../actions/presentation';
 import { Context } from '../../context';
 
 
@@ -34,7 +37,7 @@ function Admin() {
     error: '',
     sizeError: '',
     success: '',
-    formData: '',
+    formData: typeof window !== 'undefined' && new FormData(),
     title: '',
     hidePublishButton: false
   })
@@ -42,15 +45,6 @@ function Admin() {
   const {error, sizeError, success, title, formData, hidePublishButton} = values;
 
   const router = useRouter();
-
-  const isActiveOnglet = (r) => {
-      if (r === router.pathname) {
-          return ' activeOnglet'
-      } else {
-          return ''
-      }
-  }
-
 
 useEffect(() => {
   
@@ -71,7 +65,7 @@ const loadPresentation = () => {
 }
 
   useEffect(() => {
-    setValues({ ...values, formData: new FormData() })
+    setValues({ ...values, formData})
   }, [router])
 
  
@@ -92,6 +86,7 @@ const loadPresentation = () => {
         setValues({...values, error: data.error});
         new Noty({
             type: 'error',
+            theme: 'metroui',
             layout: 'topRight',
             text: data.error
           }).show();
@@ -99,11 +94,12 @@ const loadPresentation = () => {
         setValues({...values, title: '', error: '', success: `Texte de présentation ajouté`});
         setBody('');
         new Noty({
-            type: 'success',
+            type: 'info',
+            theme: 'metroui',
             layout: 'topRight',
             text: `Texte de présentation ajouté`,
           }).show();
-        Router.push(`/`);
+        Router.push(`/admin`);
     }
 });
 };
@@ -169,10 +165,23 @@ const loadPresentation = () => {
                       <a className="nav-link">Vidéos</a> 
                   </Link>
                 </li>
-                
               </ol>
+              <hr className="my-5" />
+            <div>
+            <form onSubmit={publishPresentation}>
+                <span>Veuillez saisir le titre du text de Présentation</span>
 
-            <hr className="my-5" />
+                <div className="form-floating mb-4">
+                  <input onChange={handleChange('title')} type="text" id='presentationTexte' value={title} className="form-control" required placeholder="Entrez le titre du texte de présentation" />
+                  <label htmlFor="presentationTexte">Entrez le titre du texte de présentation*</label>
+                </div>
+
+                <span>Veuillez saisir le text de Présentation</span>
+                <ReactQuill className="quill_form" value={body || " "} modules={QuillModules} formats={QuillFormats} onChange={handleBody} placeholder="Saisissez le contenu de la page de présentation..."/>
+
+                  <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Publier</button>
+              </form>
+            </div>
           </div>
         </div>
         <div className='container'>

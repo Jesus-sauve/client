@@ -16,7 +16,7 @@ function Enseignement() {
         <div className="all_pages">
           <div className='container'>
           <Link href="/admin/enseignement/gestion">
-              <a className="btn m-2 btn-dark">
+              <a className="btn m-2 btn-dark btn-retour">
                   Retour
               </a> 
           </Link>

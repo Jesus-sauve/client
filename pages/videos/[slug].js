@@ -15,17 +15,23 @@ const SingleVideo = ({ video, query }) => {
         <title>
             {video.title} | {APP_NAME}
         </title>
-        <meta name="description" content={video.mdesc} />
+        <meta
+            name="description"
+            content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
+        />
         <link rel="canonical" href={`${DOMAIN}/videos/${query.slug}`} />
         <meta property="og:title" content={`${video.title} | ${APP_NAME}`} />
-        <meta property="og:description" content={video.mdesc} />
+        <meta
+            property="og:description"
+            content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
+        />
         <meta property="og:type" content="webiste" />
         <meta property="og:url" content={`${DOMAIN}/videos/${query.slug}`} />
         <meta property="og:site_name" content={`${APP_NAME}`} />
 
         <meta property="og:image" content={`${DOMAIN}/static/images/bible.jpg`} />
         <meta property="og:image:secure_url" content={`${DOMAIN}/static/images/bible.jpg`} />
-        <meta property="og:image:type" content="image/jpg" />
+        <meta property="og:image:type" content="bible/jpg" />
     </Head>
 );
   

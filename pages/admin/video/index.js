@@ -43,7 +43,7 @@ const [values, setValues] = useState({
     error: '',
     sizeError: '',
     success: '',
-    formData: '',
+    formData: typeof window !== 'undefined' && new FormData(),
     title: '',
     hidePublishButton: false
 });
@@ -51,7 +51,7 @@ const [values, setValues] = useState({
 const { error, sizeError, success, formData, title, hidePublishButton } = values;
 
 useEffect(() => {
-  setValues({ ...values, formData: new FormData() });
+  setValues({ ...values, formData});
 }, [router]);
 
 const publishVideo = e => {
@@ -63,7 +63,7 @@ const publishVideo = e => {
           setValues({ ...values, error: data.error });
           new Noty({
             type: 'error',
-            theme: 'mint',
+            theme: 'metroui',
             layout: 'topRight',
             text: data.error,
             timeout: 3000
@@ -74,7 +74,7 @@ const publishVideo = e => {
           Router.push(`/admin`);
           new Noty({
             type: 'success',
-            theme: 'bootstrap-v4',
+            theme: 'metroui',
             layout: 'topRight',
             text: `Nouvelle vidéo enrégistrée`,
             timeout: 3000
@@ -124,8 +124,8 @@ const handleBody = e => {
               <div className="row">
                 <div className='col-lg-8 col-md-8 col-sm-12'>
                   <span>Veuillez saisir le titre de la vidéo</span>
-                  <div className="form-outline mb-4">
-                    <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required />
+                  <div className="form-floating mb-4">
+                    <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required placeholder='Titre' />
                     <label className="form-label" htmlFor="titreEnseignement">Titre*</label>
                   </div>
                   <span>Veuillez saisir le contenu de la vidéo et d'ajouter le lien</span>
@@ -133,7 +133,7 @@ const handleBody = e => {
                 </div>
               </div>
 
-                <button className="submit_Form btn myBtn mt-2 text-white" onClick={publishVideo} type="submit">Publier</button>
+                <button className="submit_Form btn myBtn mt-2 text-black" onClick={publishVideo} type="submit">Publier</button>
             </form>
           </div>
         </div>

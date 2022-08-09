@@ -2,73 +2,74 @@ import React, { useContext, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Footer from '../../../../components/Footer';
 import HeaderOther from '../../../../components/HeaderOther';
-import { create, getCategories, removeCategory } from '../../../../actions/category';
+import { create, allTheme, removeTheme } from '../../../../actions/theologieTheme';
 import Link from 'next/link';
 import Noty from 'noty';
+import Router from 'next/router';
 
-function Categories() {
+function Thème() {
 
     const [values, setValues] = useState({
         name: '',
         error: false,
         success: false,
-        categories: [],
+        themes: [],
         removed: false,
         reload: false
     })
 
-    const { name, error, success, categories, removed, reload } = values;
+    const { name, error, success, themes, removed, reload } = values;
 
     useEffect(() => {
-        loadCategories();
+        loadThemes();
     }, [reload]);
 
-    const loadCategories = () => {
-        getCategories().then(data => {
+    const loadThemes = () => {
+        allTheme().then(data => {
             if(data.error) {
                 console.log(data.error);
             } else {
-                setValues({ ...values, categories: data })
+                setValues({ ...values, themes: data })
             }
         });
     };
 
-    const showCategories = () => {
-        return categories.map((c, i) => {
-            return <button onDoubleClick={() => deleteConfirm(c.slug)} title='Faites un double clique pour supprimer la catégorie' key={i} className="btn btn-light m-2" data-mdb-ripple-color="dark">
-                {c.name}
+    const showThemes = () => {
+        return themes.map((t, i) => {
+            return <button onDoubleClick={() => deleteConfirm(t.slug)} title='Faites un double clique pour supprimer le thème' key={i} className="btn btn-light m-2" data-mdb-ripple-color="dark">
+                {t.name}
             </button>
         })
     }
 
     const deleteConfirm = slug => {
-        let answer = window.confirm('Êtes-vous sûre de vouloir supprimer cette catégorie ?');
+        let answer = window.confirm('Êtes-vous sûre de vouloir supprimer ce thème ?');
         if (answer) {
-            deleteCategory(slug);
+            deleteTheme(slug);
         }
     };
 
-    const deleteCategory = slug => {
+    const deleteTheme = slug => {
         console.log('delete', slug);
-        removeCategory(slug).then(data => {
+        removeTheme(slug).then(data => {
             if (data.error) {
                 console.log(data.error);
                 new Noty({
-                    type: 'success',
+                    type: 'warning',
                     theme: 'metroui',
                     layout: 'topRight',
-                    text: `Nouvelle catégorie créée`,
+                    text: data.error,
                     timeout: 3000
-                }).show();
+                  }).show();
             } else {
                 setValues({ ...values, error: false, success: false, name: '', removed: !removed, reload: !reload });
                 new Noty({
                     type: 'error',
                     theme: 'metroui',
                     layout: 'topRight',
-                    text: "catégorie supprimée",
+                    text: `Thème supprimé`,
                     timeout: 3000
-                  }).show();
+                }).show();
             }
         });
     };
@@ -93,12 +94,13 @@ function Categories() {
             } else {
                 setValues({ ...values, error: false, success: true, name: '' });
                 new Noty({
-                    type: 'success',
+                    type: 'info',
                     theme: 'metroui',
                     layout: 'topRight',
-                    text: `Nouvelle catégorie créée`,
+                    text: `Nouveau thème créé`,
                     timeout: 3000
                 }).show();
+                Router.push(`/admin/theologie`);
             }
         })
     }
@@ -106,35 +108,36 @@ function Categories() {
   return (
     <>
     <Head>
-        <title>Basebiblique | Catégories</title>
+        <title>Basebiblique | Thème</title>
     </Head>
       <HeaderOther />
         <div className="all_pages">
           <div className='container categorie_page'>
-            <Link href="/admin">
+            <Link href="/admin/theologie">
                 <a className="btn btn-dark btn-retour">
                     Retour
                 </a> 
             </Link>
-            <h1 className='h1'>Catégories</h1>
+            <h1 className='h1'>Thème</h1>
             <div className="row">
                 <div className='col-lg-8 col-md-8 col-sm-12'>
                     <form onSubmit={clickSubmit}>
-                    <span>Veuillez saisir le nom de la Catégorie</span>
-
+                    <span>Veuillez saisir le thème</span>
                     <div className="form-floating my-4 w-75">
-                        <input onChange={handleChange} type="text" value={name} id="textCategorie" className="form-control" required placeholder="Nom de la Catégorie"/>
-                        <label className="form-label" htmlFor="textCategorie">Nom de la Catégorie*</label>
+                        <input onChange={handleChange} type="text" value={name} id="textCategorie" className="form-control" required placeholder='Thème' />
+                        <label className="form-label" htmlFor="textCategorie">Thème*</label>
                     </div>
 
                         <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Créer</button>
                     </form>
                 </div>
                 <div className='col-lg-4 col-md-4 col-sm-12' style={{ backgroundColor: '#c5a54621', padding: '20px', borderRadius: '5px' }}>
-                    <span>Liste de toutes les catégories</span><br />
-                    {showCategories()}
+                    <span>Liste de tous les thèmes créés</span><br/>
+                    {showThemes()}
                 </div>
             </div>
+
+
           </div>
 
 
@@ -146,4 +149,4 @@ function Categories() {
     </>
   );
 };
-export default Categories;
+export default Thème;

@@ -1,3 +1,18 @@
+.noty_bar {
+  border-radius: 50px !important;
+}
+.noty_theme__metroui.noty_type__info, .noty_theme__metroui.noty_type__information {
+  background-color: #004e73 !important;
+  color: #FFF;
+}
+.noty_theme__metroui.noty_type__error {
+  background-color: #780700 !important;
+  color: #FFF;
+}
+.noty_theme__metroui.noty_bar .noty_body {
+  padding: 1em !important;
+}
+
 .noty_effects_open {
   opacity: 0;
   transform: translate(50%);
@@ -21,6 +36,18 @@
     opacity: 0;
   }
 }
+.header_top_1_logo {
+  width: 100%;
+  display: flex;
+}
+.logo_header {
+  background-image: url(../images/logo.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70px;
+  width: 30%;
+  height: 70px;
+}
 
 .contact_form .react-tel-input .form-control {
   width: 100% !important;
@@ -32,7 +59,7 @@
   background-size: cover;
 }
 .bg_image_other_header h1{
-  font-family:'Pacifico', cursive; 
+  /* font-family:'Pacifico', cursive;  */
   font-size: 60px;
   color: white;
 }
@@ -56,8 +83,13 @@
   background-attachment: fixed;
   background-size: cover;
   text-align: center;
-  padding: 4% 17%;
+  padding: 4% 12%;
   position: relative;
+}
+.contact_form_formulaire {
+  padding: 3%;
+  background: white;
+  border-radius: 3px;
 }
 .contact_form h1, .contact_form p, .contact_form form {
   position: relative;
@@ -72,6 +104,27 @@
 .contact_form .formulaire {
   padding: 0 12%;
 }
+.connexion_info {
+  background: black;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.contact_page_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  background: black;
+  z-index: 2;
+  padding: 2%;
+  color: white;
+}
 
 .contact_form .formulaire .form-outline .form-control~.form-label {
   color: rgb(255 255 255 / 82%);
@@ -85,6 +138,11 @@
   color: white !important;
 }
 
+.contacp_page_form {
+  background: white;
+  padding: 2%;
+  border-radius: 3px;
+}
 
 .administration_page ol li {
   list-style: none;
@@ -125,6 +183,12 @@
   border-radius: 5px;
 }
 
+
+
+section .body_video iframe.ql-video {
+  width: 100% !important;
+  height: 78vh !important;
+}
 
 .quill_form .ql-container.ql-snow {
   height: 20rem;
@@ -175,13 +239,14 @@ form.form_custom .form-control:focus {
 }
 
 .react-tel-input .form-control {
-  height: 58px !important;
+  height: 55px !important;
   width: 312px !important;
   outline: none;
 }
 
 .my_footer .react-tel-input .form-control {
   width: 100% !important;
+  height: 42px !important;
 }
 
 /* .page_video_seul iframe.ql-video {
@@ -224,6 +289,10 @@ display: flex;
 @media screen and (max-width:767px){
     .popup .content {
     padding: 0 24px;
+    }
+    section .body_video iframe.ql-video {
+      width: 100% !important;
+      height: 20rem !important;
     }
 }
 
@@ -276,8 +345,42 @@ display: flex;
 {
 	background-color: #000000;
 }
+.all_video .card .bg-image amask {
+  background-image: url(../images/video.png);
+  background-repeat: no-repeat;
+  background-size: 100px;
+  background-position: center center;
+}
 .all_video .card {
   position: relative;
+}
+.all_video .card .bg-image a:after {
+  content: "";
+  background: url(../images/video.png);
+  background-repeat: no-repeat;
+  background-size: 70px;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+}
+.all_video .card .bg-image:after {
+  content: "";
+  background: black;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+}
+.all_video .card .bg-image a {
+  position: relative;
+  z-index: 9;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .all_video .card .myBtn {
   position: absolute;
@@ -287,7 +390,47 @@ display: flex;
 }
 
 
-section .body_video iframe.ql-video {
-  width: 100% !important;
-  height: 78vh !important;
+.scroll_button {
+  position: absolute;
+  top: 70% !important;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  background: #c5a546;
+  padding: .4rem .8rem;
+  border-radius: 50px;
+  border: none;
+}
+
+.scroll_button i {
+  transform: rotate(90deg);
+  color: black;
+}
+
+.search_bar{
+  position: relative;
+}
+
+.search_button{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.list_theme {
+  display: flex;
+}
+
+.theologie_content {
+  background-color: #F5F5F5;
+}
+
+.theologie_page .nav-pills .nav-link.active, .theologie_page .nav-pills .show>.nav-link {
+  color: black !important;
+  background-color: #c5a546 !important;
+}
+
+.page_enseignement a.btn.m-2.btn-dark:hover, .all_pages .btn-retour:hover {
+  color: white !important;
+  background-color: #c5a546 !important;
 }

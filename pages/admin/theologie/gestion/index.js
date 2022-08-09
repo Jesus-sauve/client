@@ -78,7 +78,7 @@ const showAllTheologies = () => {
         <div className="all_pages">
           <div className='container'>
           <Link href="/admin/theologie">
-              <a className="btn m-2 btn-dark">
+              <a className="btn m-2 btn-dark btn-retour">
                   Retour
               </a> 
           </Link>

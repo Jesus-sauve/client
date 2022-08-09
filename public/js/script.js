@@ -8,16 +8,4 @@ $(document).ready(function(){
     }
   });
 
-  $('.monter').click(function() {
-		$('body,html').animate({ scrollTop: 0}, 800);
-		return false;
-	});
-
-	$('.btn-descendre').click(function() {
-		var distance_ancre = Math.round($('.presentation').offset().top);
-		$('body,html').animate({ scrollTop: distance_ancre}, 800);
-		return false;
-	});
-
-
 });

@@ -2,10 +2,7 @@ import Link from 'next/link';
 import moment from 'moment';
 import { API } from '../../config';
 
-
-
 const Card = ({ enseignement }) => {
-
 
     const showAllCategories = enseignement => 
         enseignement.categories.map((c, i) => (
@@ -19,7 +16,7 @@ const Card = ({ enseignement }) => {
     return (
         <div className="lead mb-5">
         <header>
-        <span>Thème : </span><Link href={`/enseignements/${enseignement.slug}`}><a className='pt-3 pb-3 text-danger fw-bold'><strong>{enseignement.title}</strong></a></Link>
+        <span>Thème : </span><Link href={`/enseignements/${enseignement.slug}`}><a className='pt-3 pb-3 text-danger fw-semi-bold'>{enseignement.title}</a></Link>
         </header>
         <section>
           <p className="mark ml-1 p-1 fs-6">
@@ -47,7 +44,7 @@ const Card = ({ enseignement }) => {
             <section>
               <div className='pb-3 mt-4' dangerouslySetInnerHTML={{ __html: enseignement.excerpt }}></div>
               <Link href={`/enseignements/${enseignement.slug}`}>
-                <a className='btn myBtn text-white'>Lire plus</a>
+                <a className='btn btn-sm myBtn text-black'>Lire plus</a>
               </Link>
             </section>
           </div>

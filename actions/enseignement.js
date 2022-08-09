@@ -48,14 +48,6 @@ export const singleEnseignement = slug => {
 
 
 export const list = (code) => {
-    // let listEnseignementEndpoint;
-
-    // if ( code ) {
-    //     listEnseignementEndpoint = `${API}/${code}/enseignements`;
-    // } else {
-    //     listEnseignementEndpoint = `${API}/enseignements`;
-    // }
-
     return fetch(`${API}/enseignements`, {
         method: 'GET'
     })

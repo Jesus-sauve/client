@@ -31,7 +31,8 @@ function Inscription() {
             password,
           });
           new Noty({
-            type: 'success',
+            type: 'info',
+            theme: 'metroui',
             layout: 'topRight',
             text: `Inscription réussit`,
             timeout: 3000
@@ -41,6 +42,7 @@ function Inscription() {
     } catch (err) {
         new Noty({
             type: 'error',
+            theme: 'metroui',
             layout: 'topRight',
             text: `${err.response.data}`,
             timeout: 3000
@@ -108,7 +110,7 @@ function Inscription() {
                             <label htmlFor="passwordInscription">Mot de passe*</label>
                           </div>
 
-                          <button type="submit" className="btn myBtn mb-4 text-white"  disabled={!email || !password || loading}>{loading ? <SyncOutlined spin /> : "Valider"}</button>
+                          <button type="submit" className="btn myBtn mb-4 text-black"  disabled={!email || !password || loading}>{loading ? <SyncOutlined spin /> : "Valider"}</button>
 
                         <p>* Champs obligatoires</p>
                         <p className="text-center">

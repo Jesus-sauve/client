@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { emailContactForm } from '../actions/contact';
 import Noty from 'noty';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+
 
 function Footer() {
 
@@ -29,8 +30,10 @@ function Footer() {
                     setSent(false);
                     new Noty({
                       type: 'error',
+                      theme: 'metroui',
                       layout: 'topRight',
-                      text: data.error
+                      text: data.error,
+                      timeout: 3000
                     }).show();
                   } else {
                       setName("");
@@ -38,9 +41,11 @@ function Footer() {
                       setPhone("");
                       setMessage("");
                       new Noty({
-                        type: 'success',
+                        type: 'info',
+                        theme: 'metroui',
                         layout: 'topRight',
-                        text: "Votre message a bien été envoyé"
+                        text: "Votre message a bien été envoyé",
+                        timeout: 3000
                       }).show();
                       setSent(false);
                   }
@@ -57,6 +62,11 @@ function Footer() {
             return ''
         }
     }
+
+    useEffect(() => {
+        // 👇️ scroll to top on page load
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+      }, []);
     
   return (
     <div className='my_footer'>
@@ -146,7 +156,7 @@ function Footer() {
                     <label htmlFor="message">Merci de saisir votre message</label>
                     </div>
 
-                    <button type="submit" className="btn myBtn my-2">Envoyer</button>
+                    <button type="submit" className="btn myBtn my-2 text-black">Envoyer</button>
 
                 </form>
             </div>
@@ -158,7 +168,7 @@ function Footer() {
                         <input type="email" id="email" className="form-control" />
                         <label className="form-label" htmlFor="email">Adresse email</label>
                     </div>
-                    <button className="btn myBtn my-2" disabled type="button" id="button-email" data-mdb-ripple-color="dark">
+                    <button className="btn myBtn my-2 text-black" disabled type="button" id="button-email" data-mdb-ripple-color="dark">
                         S'inscrire
                     </button>
                 </form>
@@ -171,7 +181,7 @@ function Footer() {
                 <div className='footer_joinUs'>
                     <p>Contactez-nous:</p>
                     <span><i className="fa-solid fa-envelope mx-1"></i>basebiblique@gmail.com</span>
-                    <span><i className="fa-solid fa-phone mx-1"></i>+1 44 38 39 40 79</span>
+                    <span><i className="fa-solid fa-phone mx-1"></i>+1 (443) 839-4079</span>
                 </div>
                 <div className="footer_copyright">
                     <span className='text-center'><span className='basebiblique_style_logo'>BaseBiblique</span>.org © 2022</span>
@@ -182,6 +192,27 @@ function Footer() {
             </div>
             
         </div>
+
+        <button
+        onClick={() => {
+          window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+        }}
+        style={{
+          position: 'absolute',
+          padding: '.4rem .8rem',
+          fontSize: '15px',
+          bottom: '70px',
+          right: '40px',
+          backgroundColor: '#c5a546',
+          color: '#000',
+          textAlign: 'center',
+          borderRadius: '50px',
+          zIndex: 99,
+          border: 'none'
+        }}
+      >
+        <i className="fa-solid fa-angles-up"></i>
+      </button>
     </div>
   )
 }

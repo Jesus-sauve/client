@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -11,6 +11,8 @@ import moment from 'moment';
 import 'moment/locale/fr';
 import renderHTML from 'react-render-html';
 import { API, DOMAIN, APP_NAME } from '../config';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from "swiper";
 
 const Accueil = ({ enseignements, router }) => {
 
@@ -19,13 +21,13 @@ const Accueil = ({ enseignements, router }) => {
         <title>{APP_NAME} | Accueil</title>
         <meta
             name="description"
-            content="Jésus lui dit: Je suis le chemin, la vérité, et la vie. Nul ne vient au Père que par moi."
+            content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
         />
         <link rel="canonical" href={`${DOMAIN}${router.pathname}`} />
         <meta property="og:title" content={`Retour aux fondements bibliques | ${APP_NAME}`} />
         <meta
             property="og:description"
-            content="Jésus lui dit: Je suis le chemin, la vérité, et la vie. Nul ne vient au Père que par moi."
+            content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
         />
         <meta property="og:type" content="webiste" />
         <meta property="og:url" content={`${DOMAIN}${router.pathname}`} />
@@ -33,7 +35,7 @@ const Accueil = ({ enseignements, router }) => {
 
         <meta property="og:image" content={`${DOMAIN}/static/images/bible.jpg`} />
         <meta property="og:image:secure_url" content={`${DOMAIN}/static/images/bible.jpg`} />
-        <meta property="og:image:type" content="image/jpg" />
+        <meta property="og:image:type" content="bible/jpg" />
     </Head>
 );
 
@@ -41,6 +43,13 @@ const Accueil = ({ enseignements, router }) => {
   const [presentation, setPresentation] = useState();
   const [videos, setVideos] = useState([]);
   const [theologie, setTheologie] = useState([]);
+
+  const ref = useRef(null);
+
+  const handleClick = () => {
+    ref.current?.scrollIntoView({behavior: 'smooth'});
+  };
+
 
 
   const showVideos = () => {
@@ -77,32 +86,34 @@ const Accueil = ({ enseignements, router }) => {
   }, [])
 
 
+
   const showEnseignement = () => {
     return enseignements.map((item, i) => (
       <div className='style_flex' key={i}>
         <div className="col-md-5 col-sm-12 gx-5 mb-5">
           <div className="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
             <img src={`${API}/enseignement/photo/${item.slug}`} alt={item.title} className="img-fluid" style={{ maxHeight: '200px', width: '100%', minHeight: '200px' }} />
-            <a href="#!">
+            <a>
               <div className="mask" style={{backgroundColor: '#00000078'}}></div>
             </a>
           </div>
         </div>
 
         <div className="col-md-7 col-sm-12 gx-5 mb-4 p-4">
-          <h4 className='couleur'><strong>{item.title}</strong></h4>
+          <h6 className='couleur'><strong>{item.title}</strong></h6>
           <div className='mt-4 text-muted' dangerouslySetInnerHTML={{ __html: item.excerpt }}></div>
-          <Link  href={`/enseignements/${item.slug}`}><a className="btn btn-sm myBtn mx-2 text-white">Voir plus</a></Link>
+          <Link  href={`/enseignements/${item.slug}`}><a className="btn btn-sm btn-black mx-2 text-white">Voir plus</a></Link>
         </div>
       </div>
       ))
   }
 
   return (
-    <>
+    <div className='page_accueil'>
+    <button className='scroll_button' onClick={handleClick}><i className="fa-solid fa-angles-right"></i></button>
     {head()}
       <Header />
-        <main className="mt-5">
+        <main className="mt-5" ref={ref}>
 
         <div className='all_pages presentation container'>
           <div className='mb-5'>
@@ -164,13 +175,12 @@ const Accueil = ({ enseignements, router }) => {
                     <span> Posté {moment(videos.updatedAt).fromNow()}</span>
                   }
                 
-                <p>Description</p>
-                  {
-                    !videos ? <Skeleton count={4}/> :
-                    <span className='pb-3 mt-4 text-center text-black' dangerouslySetInnerHTML={{ __html: videos.excerpt }}></span>
-                  }
+                    <span className='pb-3 mt-4 text-center text-black'>
+                      Vous retrouverez dans cette section vidéo tout un ensemble d'enseignements vidéo qui vous édifieront.
+                      Choisissez de visualiser toutes les vidéos ou celle juste publiée.
+                    </span>
                 
-                <Link  href="/videos"><a className="btn btn-sm myBtn mx-2 text-white">Voir toutes les vidéos</a></Link>
+                <Link  href="/videos"><a className="btn btn-sm btn-black mt-4 mx-2 text-white">Voir toutes les vidéos</a></Link>
               </div>
             </div>
           </div>
@@ -187,44 +197,67 @@ const Accueil = ({ enseignements, router }) => {
       <div className="theology_content container">
 
 
-          <h1 className="m-5 text-white h1"><strong>Théologie</strong></h1>
+          <h1 className="m-5 text-white h1">Théologie</h1>
 
           <div className="row">
-            {
-              !theologie ?
-              <>
-                <Skeleton count={10}/>
-              <p>
-            Contenu bientôt disponible...
-              </p>
-              </> :
-              theologie.map((t, i) => (
-              <div key={i} className="col-lg-4 col-md-12 mb-4">
-                <div className="card text-white" style={{backgroundColor: '#00000078'}}>
-                  <div className="card-body">
-                    <h5 className="card-title text-white">{t.title}</h5>
-                    <div className="card-text">{renderHTML(t.excerpt)}</div>
-                    <Link  href="/theology"><a className="btn btn-sm myBtn mx-2 text-white">Voir plus</a></Link>
+          <Swiper
+        slidesPerView={1}
+        spaceBetween={10}
+        navigation={true}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        breakpoints={{
+          640: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 40,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 50,
+          },
+        }}
+        modules={[Autoplay, Pagination, Navigation]}
+        className="mySwiper"
+      >
+         
+              {
+                !theologie ?
+                <>
+                  <Skeleton count={10}/>
+                <p>
+              Contenu bientôt disponible...
+                </p>
+                </> :
+                theologie.map((t, i) => (
+                  <SwiperSlide>
+                <div key={i} className="mx-1">
+                  <div className="card text-white" style={{backgroundColor: '#00000078'}}>
+                    <div className="card-body">
+                      <h5 className="card-title text-white">{t.title}</h5>
+                      <div className="card-text">{renderHTML(t.excerpt)}</div>
+                      <Link  href="/theologie"><a className="btn btn-sm myBtn mx-2 text-black">Voir plus</a></Link>
 
+                    </div>
                   </div>
                 </div>
-              </div>
-              ))
-            }
-          </div>
-
-
+                </SwiperSlide>
+                ))
+              }
+               
+            </Swiper>
+            </div>
           </div>
 
         </section>
-
-        
-      
-
-        <div className='container'>
-          <hr className="my-5" />
-        </div>
-
 
         <section className="my-5 solas container">
 
@@ -284,33 +317,62 @@ const Accueil = ({ enseignements, router }) => {
 
         <div className="partie_trois_versets my-5">
         <div className='trois_versets container'>
-          <div className='verset_1'>
-            <i className="fa-solid fa-book-bible"></i>
-            <p>Jésus-Christ :<br /> « Le chemin, la vérité et la vie, nul ne vient au pere que par lui… »</p> 
-            <p className="verset">Jean 14 v 6</p>
-          </div>
-          <div  className='verset_1'>
-            <i className="fa-solid fa-book-bible"></i>
-            <p>Jésus-Christ :<br /> « Je suis la porte. Si quelqu'un entre par moi, il sera sauvé… »</p> 
-            <p className="verset">Jean 10 v 9</p>
-          </div>
-          <div  className='verset_1'>
-            <i className="fa-solid fa-book-bible"></i>
-            <p>« car le salaire du péché, c'est la mort ; mais le don gratuit de Dieu, c'est la vie éternelle en Jésus Christ notre Seigneur »</p> 
-            <p className="verset">Romains 6:23</p>
-          </div>
+          <Swiper
+        slidesPerView={1}
+        spaceBetween={10}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        breakpoints={{
+          640: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 1,
+            spaceBetween: 40,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 50,
+          },
+        }}
+        modules={[Autoplay, Pagination]}
+        className="mySwiper"
+      >
+         <SwiperSlide>
+            <div className='verset_1 item'>
+              <i className="fa-solid fa-book-bible"></i>
+              <p>Jésus-Christ :<br /> « Le chemin, la vérité et la vie, nul ne vient au pere que par lui… »</p> 
+              <p className="verset">Jean 14 v 6</p>
+            </div>
+            </SwiperSlide>
+            <SwiperSlide>
+            <div  className='verset_1 item'>
+              <i className="fa-solid fa-book-bible"></i>
+              <p>Jésus-Christ :<br /> « Je suis la porte. Si quelqu'un entre par moi, il sera sauvé… »</p> 
+              <p className="verset">Jean 10 v 9</p>
+            </div>
+            </SwiperSlide>
+            <SwiperSlide>
+            <div  className='verset_1 item'>
+              <i className="fa-solid fa-book-bible"></i>
+              <p>« car le salaire du péché, c'est la mort ; mais le don gratuit de Dieu, c'est la vie éternelle en Jésus Christ notre Seigneur »</p> 
+              <p className="verset">Romains 6:23</p>
+            </div>
+            </SwiperSlide>
+            </Swiper>
         </div>
       </div>
-
-
-      </main>
       
-      <div className='container'>
-          <hr className="my-5" />
-        </div>
+      </main>
 
       <Footer />
-    </>
+    </div>
   );
 };
 

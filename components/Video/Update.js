@@ -17,7 +17,6 @@ const VideoUpdate = ({ router }) => {
         title: '',
         error: '',
         success: '',
-        formData: '',
         title: '',
         body: '',
         formData: typeof window !== 'undefined' && new FormData(),
@@ -63,8 +62,7 @@ const VideoUpdate = ({ router }) => {
                 setValues({ ...values, error: data.error });
                 new Noty({
                     type: 'error',
-                    theme: 'bootstrap-v4',
-                    theme: 'mint',
+                    theme: 'metroui',
                     layout: 'topRight',
                     text: data.error,
                     timeout: 3000
@@ -74,8 +72,8 @@ const VideoUpdate = ({ router }) => {
                 setBody('');
                 Router.push(`/admin`);
                 new Noty({
-                    type: 'success',
-                    theme: 'bootstrap-v4',
+                    type: 'info',
+                    theme: 'metroui',
                     layout: 'topRight',
                     text: `Vidéo mis à jour`,
                     timeout: 3000
@@ -100,7 +98,7 @@ const VideoUpdate = ({ router }) => {
                 </div>
               </div>
 
-            <button className="submit_Form btn myBtn mt-2 text-white" type="submit">Modifier</button>
+            <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Modifier</button>
            
             </form>
 
