@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Footer from '../../components/Footer';
-import Skeleton from 'react-loading-skeleton-2';
 import HeaderOther from '../../components/HeaderOther';
 import { withRouter } from 'next/router';
 import Link from 'next/link';
@@ -10,6 +9,7 @@ import {listEnseignementWithCategories} from '../../actions/enseignement';
 import Card from '../../components/Enseignement/Card';
 import Search from '../../components/Enseignement/Search';
 import { DOMAIN, APP_NAME } from '../../config';
+import MonSkeleton from '../../components/monSkeleton';
 
 const Enseignements = ({ enseignements, categories, totalEnseignements, enseignementsLimit, enseignementSkip, router }) => {
 
@@ -32,40 +32,30 @@ const Enseignements = ({ enseignements, categories, totalEnseignements, enseigne
   };
 
 
-  const loadMoreButton = () => {
-    return (
-      size > 0 && 
-      size >= limit && 
-        (
-          <button onClick={loadMore} className='btn btn-dark btn-lg'>
-            Charger plus
-          </button>
-        )
-    );
-};
+const loadMoreButton = () => {
+  return ( size > 0 && size >= limit && (
+    <button onClick={loadMore} className='btn btn-dark btn-lg'>
+      Charger plus
+    </button>
+  ))};
 
 const showLoadedEnseignements = () => {
   return loadedEnseignements.map((enseignement, i) => {
-      // ()
-      return (
-          <article key={i}>
-              <Card enseignement={enseignement} />
-              <hr />
-          </article>
-      );
-  });
+    return (
+      <article key={i}>
+        <Card enseignement={enseignement} /><hr />
+      </article>
+    )}
+  );
 };
-
 
 const showAllEnseignements = () => {
   return enseignements.map((enseignement, i) => {
-      // ()
-      return (
-          <article key={i}>
-              <Card enseignement={enseignement} />
-              <hr />
-          </article>
-      );
+    return (
+      <article key={i}>
+        <Card enseignement={enseignement} /><hr />
+      </article>
+    );
   });
 };
 
@@ -74,8 +64,8 @@ const showAllCategories = () => {
     <Link key={item._id} href={`/category/${item.slug}`}>
       <a className='btn btn-dark m-2'>{item.name}</a>
     </Link>
-    ))
-}
+  ));
+};
 
 
 const head = () => (
@@ -114,54 +104,32 @@ const head = () => (
                   <h1 className='h1'>Enseignements</h1>
                 </div>
                 <div className="col-md-6">
-                  <Search />
+                  {enseignements.length === 0 ? <></> : <Search /> }
                 </div>
               </div>
             </div>
-
             <hr className="my-5" />
-            
-            <div className="row">
-              
-           <div className="col-md-8">
-             { !enseignements ? 
-            <div className='container'>
-              <Skeleton count={10}/>
-              <p>
-                Contenu bientôt disponible...
-              </p>
-            </div>
-            :
-            <div>
-              {showAllEnseignements()}  
-              {showLoadedEnseignements()}
 
-              <div className='text-center m-3'>
-                {loadMoreButton()} 
+            <div className="row">
+              <div className="col-md-8">
+                {enseignements.length === 0 ? (
+                  <MonSkeleton /> ) : ( <div>
+                    {showAllEnseignements()}  
+                    {showLoadedEnseignements()}
+                    <div className='text-center m-3'>{loadMoreButton()}</div>
+                  </div>
+                )}
               </div>
-            </div>
-            }
-           </div>
 
            <div className="col-md-4">
             <h4 className='mb-5 titres_bas_presentation'><strong>Nos différentes catégories</strong></h4>
-              { !categories ? 
-              <div className='container'>
-                <Skeleton count={2}/>
-                <p>
-                  Thèmes bientôt disponible...
-                </p>
-              </div>
-              :
-              <div>{showAllCategories()}</div>
-              }
-          </div>
+              {categories.length === 0 ? (
+                <MonSkeleton /> ) : ( <div>{showAllCategories()}</div>)}
+            </div>
 
           </div>
           <hr className="my-5" />
-
           </div>
-          
         </div>
       <Footer />
     </React.Fragment>

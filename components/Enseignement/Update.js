@@ -5,9 +5,7 @@ import dynamic from 'next/dynamic';
 import { withRouter } from 'next/router';
 import { getCategories } from '../../actions/category';
 import { singleEnseignement, updateEnseignement } from '../../actions/enseignement';
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import '../../node_modules/react-quill/dist/quill.snow.css';
-import { QuillModules, QuillFormats } from '../../helpers/quil';
+const RichTextEditor = dynamic(() => import('@mantine/rte'), { ssr: false });
 import { API } from '../../config';
 import Noty from 'noty';
 
@@ -18,6 +16,8 @@ const EnseignementUpdate = ({ router }) => {
 
     const [checked, setChecked] = useState([]); // categories
 
+    const [controlImage, setControlImage] = useState(false);
+
     const [values, setValues] = useState({
         title: '',
         error: '',
@@ -26,11 +26,11 @@ const EnseignementUpdate = ({ router }) => {
         body: '',
         formData: typeof window !== 'undefined' && new FormData(),
     });
-    
+
     const { error, success, formData, title } = values;
 
-     useEffect(() => {
-        setValues({ ...values, formData});
+    useEffect(() => {
+        setValues({ ...values, formData });
         initEnseignement();
         initCategories();
     }, [router]);
@@ -69,7 +69,6 @@ const EnseignementUpdate = ({ router }) => {
 
     const handleToggle = c => () => {
         setValues({ ...values, error: '' });
-        // return the first index or -1
         const clickedCategory = checked.indexOf(c);
         const all = [...checked];
 
@@ -113,23 +112,31 @@ const EnseignementUpdate = ({ router }) => {
     };
 
     const handleChange = name => e => {
-        // console.log(e.target.value);
         const value = name === 'photo' ? e.target.files[0] : e.target.value;
         formData.set(name, value);
         setValues({ ...values, [name]: value, formData, error: '' });
         if (e.target.files && e.target.files[0]) {
             setImage(URL.createObjectURL(e.target.files[0]));
-          }
-      };
-      
-      const handleBody = e => {
-        // console.log(e);
+            setControlImage(true)
+        }
+    };
+
+    const handleBody = e => {
         setBody(e);
         formData.set('body', e);
-      };
+    };
 
-      const editEnseignement = e => {
+    const editEnseignement = e => {
         e.preventDefault();
+        if (controlImage === false) {
+            new Noty({
+              type: 'error',
+              theme: 'metroui',
+              layout: 'topRight',
+              text: "Merci de choisir une image",
+              timeout: 3000
+            }).show();
+          } else {
         updateEnseignement(formData, router.query.slug).then(data => {
             if (data.error) {
                 setValues({ ...values, error: data.error });
@@ -139,11 +146,11 @@ const EnseignementUpdate = ({ router }) => {
                     layout: 'topRight',
                     text: data.error,
                     timeout: 3000
-                  }).show();
+                }).show();
             } else {
                 setValues({ ...values, title: '', success: `Enseignement mis à jour` });
                 setBody('');
-                setCategories([]);
+                setControlImage(false)
                 Router.push(`/admin`);
                 new Noty({
                     type: 'info',
@@ -154,58 +161,58 @@ const EnseignementUpdate = ({ router }) => {
                 }).show();
             }
         });
+    }
     };
 
     const updateEnseignementForm = () => {
         return (
             <>
-             {body && (
-                <img className="img img-fluid" style={{ width: '17%', height: '200px', borderRadius: '50%' }}  src={`${API}/enseignement/photo/${router.query.slug}`} alt={title}  />
-            )}
-            <form onSubmit={editEnseignement}>
+                {body && (
+                    <img className="img img-fluid" style={{ width: '17%', height: '200px', borderRadius: '50%' }} src={`${API}/enseignement/photo/${router.query.slug}`} alt={title} />
+                )}
+                <form onSubmit={editEnseignement}>
 
-              <div className="row">
-                <div className='col-lg-8 col-md-8 col-sm-12'>
-                  <span>Veuillez saisir le titre de l'enseignement</span>
-                  <div className="form-floating mb-4">
-                    <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required placeholder="Titre de l'enseignement" />
-                    <label className="form-label" htmlFor="titreEnseignement">Titre de l'enseignement*</label>
-                  </div>
-                  <span>Veuillez saisir le contenu de l'enseignement</span>
-                  <ReactQuill onChange={handleBody} value={body} className="quill_form" modules={QuillModules} formats={QuillFormats} placeholder="Saisissez le contenu de la page de l'enseignement..."/>
-                </div>
+                    <div className="row">
+                        <div className='col-lg-8 col-md-8 col-sm-12'>
+                            <span>Veuillez saisir le titre de l'enseignement</span>
+                            <div className="form-floating mb-4">
+                                <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required placeholder="Titre de l'enseignement" />
+                                <label className="form-label" htmlFor="titreEnseignement">Titre de l'enseignement*</label>
+                            </div>
+                            <span>Veuillez saisir le contenu de l'enseignement</span>
 
-                <div className='col-lg-4 col-md-4 col-sm-12' style={{ backgroundColor: '#c5a54621', padding: '20px', borderRadius: '5px' }}>
-                  <span>Merci de choisir des catégories associées à l'enseignement</span>
-                  <div>
-                      <h5 className='couleur'>Catégories</h5>
-                      <hr />
-                      <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>{showCategories()}</ul>
-                  </div>
+                            <RichTextEditor value={body || " "} onChange={handleBody} placeholder="Saisissez le contenu de la page de l'enseignement..." />
+                        </div>
 
-                  <div className="form-group pb-2">
-                    <h5 className='couleur'>image</h5>
-                    <hr />
+                        <div className='col-lg-4 col-md-4 col-sm-12' style={{ backgroundColor: '#c5a54621', padding: '20px', borderRadius: '5px' }}>
+                            <span>Merci de choisir des catégories associées à l'enseignement</span>
+                            <div>
+                                <h5 className='couleur'>Catégories</h5>
+                                <hr />
+                                <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>{showCategories()}</ul>
+                            </div>
 
-                    <small className="text-muted">Max size: 1mb</small>
-                    <br />
-                    <label className="btn btn-dark mb-4 text-white">
-                        Choisissez une image
-                        <input onChange={handleChange('photo')} type="file" accept="image/*" hidden />
-                    </label>
-                
-                    <img className="img-fluid rounded" style={{ width: '70%' }} src={image} />
-                </div>
+                            <div className="form-group pb-2">
+                                <h5 className='couleur'>image</h5>
+                                <hr />
+
+                                <small className="text-muted">Max size: 1mb</small>
+                                <br />
+                                <label className="btn btn-dark mb-4 text-white">
+                                    Choisissez une image
+                                    <input onChange={handleChange('photo')} type="file" accept="image/*" hidden required />
+                                </label>
+
+                                <img className="img-fluid rounded" style={{ width: '70%' }} src={image} />
+                            </div>
 
 
-               </div>
-              </div>
+                        </div>
+                    </div>
 
-            <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Modifier</button>
-           
-            </form>
+                    <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Modifier</button>
 
-           
+                </form>
             </>
         )
     }

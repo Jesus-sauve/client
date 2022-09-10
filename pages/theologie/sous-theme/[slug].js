@@ -4,17 +4,25 @@ import Footer from '../../../components/Footer';
 import HeaderOther from '../../../components/HeaderOther';
 import renderHTML from 'react-render-html';
 import { allTheme } from '../../../actions/theologieTheme';
-import { single_sous_Theme, sous_Theme_actuel } from '../../../actions/theologieSousTheme';
+import { single_sous_Theme } from '../../../actions/theologieSousTheme';
 import { DOMAIN, APP_NAME, API } from '../../../config';
 import Link from 'next/link';
 import axios from 'axios';
-import Reveal from 'react-reveal/Fade';
+import Router, { withRouter } from 'next/router';
 
-const SingleSousTheologie = ({ theme, query }) => {
+import { Fade } from "react-awesome-reveal";
+import MonSkeleton from '../../../components/monSkeleton';
+
+const SingleSousTheologie = ({ theme, router }) => {
 
     const [themes, setThemes] = useState([]);
     const [sousThemeActuel, setSousThemeActuel] = useState('');
     const [theologies, setTheologies] = useState([]);
+    const [onlyTheologieTheme, setOnlyTheologieTheme] = useState({});
+    const [onlyTheologieThemeSlug, setOnlyTheologieThemeSlug] = useState({});
+    const [allSousTheme, setAllSousTheme] = useState([]);
+    const [tmpValue, settmpValue] = useState([]);
+    const [tmpValue1, settmpValue1] = useState([]);
 
   const head = () => (
     <Head>
@@ -23,14 +31,14 @@ const SingleSousTheologie = ({ theme, query }) => {
             name="description"
             content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
         />
-       <link rel="canonical" href={`${DOMAIN}/theologie/${query.slug}`} />
-        <meta property="og:title" content={`${theme.name} | ${APP_NAME}`} />
+       <link rel="canonical" href={`${DOMAIN}/theologie/${router.query.slug}`} />
+        <meta property="og:title" content={`${sousThemeActuel.name} | ${APP_NAME}`} />
         <meta
             property="og:description"
             content="Blogs chrétien, enseignements, vidéos, prédications baseBiblique pour une édification totale"
         />
         <meta property="og:type" content="webiste" />
-        <meta property="og:url" content={`${DOMAIN}/videos/${query.slug}`} />
+        <meta property="og:url" content={`${DOMAIN}/videos/${router.query.slug}`} />
         <meta property="og:site_name" content={`${APP_NAME}`} />
 
         <meta property="og:image" content={`${DOMAIN}/static/images/bible.jpg`} />
@@ -40,37 +48,49 @@ const SingleSousTheologie = ({ theme, query }) => {
 );
 
     const allThemes = () => {
-        allTheme().then(data => {
-            let newInfo = data;
-            if(data.error) {
-                console.log(data.error);
-            } else {
-            setThemes(newInfo)
-            }
-        })
+      allTheme().then(data => {
+          let newInfo = data;
+          if(data.error) {
+              console.log(data.error);
+          } else {
+          setThemes(newInfo)
+          }
+      })
     }
 
+    const allSousThemeTheologie = () => {
+      axios.get(`${API}/theologie-sous-themes`,)
+        .then(response => {
+          settmpValue(response.data)
+        });
+      }
+
+
+
      const sousTheme = () => {
-        axios.get(`${API}/theologie-sous-theme-actuel/${query.slug}`,)
+        axios.get(`${API}/theologie-sous-theme-actuel/${router.query.slug}`,)
         .then(response => {
             let info = response.data
             setSousThemeActuel(info)
+            setOnlyTheologieTheme(response.data.theologieTheme[0]._id)
+            setOnlyTheologieThemeSlug(response.data.theologieTheme[0].slug)
       });
     };
 
     const showTheologies = () => {
-        axios.get(`${API}/theologie-sous-theme/${query.slug}`,)
+        axios.get(`${API}/theologie-sous-theme/${router.query.slug}`,)
         .then(response => {
             let infos = response.data.theologies
         setTheologies(infos)
-        // console.log(infos);
+        
       });
     };
-  
+
   useEffect(() => {
     {allThemes()}
     {sousTheme()}
     {showTheologies()}
+    {allSousThemeTheologie()}
   }, []);
 
   return (
@@ -82,76 +102,61 @@ const SingleSousTheologie = ({ theme, query }) => {
             
           <div className="container">
             <h1 className='h1'>Théologie - {sousThemeActuel.name}</h1>
-
+            
             <div className='list_theme'>
-              {themes.map((t, i) => (
+              {themes.length === 0 ? <MonSkeleton /> : (
+              themes.map((t, i) => (
                 <Link key={i} href={`/theologie/${t.slug}`}>
-                  <a className="nav-link btn mx-2 btn-outline-dark" data-mdb-ripple-color="dark">{t.name}</a>
+                  <a className={`nav-link btn mx-2 ${onlyTheologieThemeSlug == t.slug ? 'btn-primary' : 'btn-outline-dark'}`} data-mdb-ripple-color="dark">{t.name}</a>
                 </Link>
-              ))}
+              )))}
             </div>
+
+          <button className='btn btn-dark mx-2 my-4' onClick={() => router.back()}><i className="fa-solid fa-arrow-left"></i></button>
+          
+          </div>
+          
+          { !router.query.slug ? <p>Indisponible</p> :
+            <div className="row">
+              <div className="col-md-2">
+                  <div className="nav flex-column text-center mt-5">
+
+                  <Fade cascade damping={0.1}>
+                    {tmpValue.map((item, i) => {
+                      if (item.theologieTheme.includes(onlyTheologieTheme)){
+                      return (
+                        <Link key={i} href={`/theologie/sous-theme/${item.slug}`}>
+                          <a target="_blank" className={`btn btn-block p-2 my-2 ${sousThemeActuel.slug == item.slug ? 'btn-dark' : 'btn-outline-dark'}`} data-mdb-ripple-color="dark">{i+1}{" "}{item.name}</a>
+                      </Link> ) } else null })}
+                    </Fade>
+                    
+                  </div>
+              </div>
+
+              <div className="col-md-10 mt-5">
+                <Fade cascade damping={0.1}>
+                  <div className="nav nav-pills mb-3 text-center p-0" id="v-tabs-tab" role="tablist">
+                    { theologies.length === 0 ? <MonSkeleton /> : (
+                      theologies.map((t, i) => (
+                      <a key={i} className="nav-link" id={`${t.slug}`} data-mdb-toggle="tab" href={`#${t.slug}-44`} role="tab" aria-controls={`${t.slug}-44`} aria-selected="true">{t.title}</a>
+                    )))}
+                  </div>
+                  <div className="tab-content" id="v-tabs-tabContent">
+                    {theologies.map((t, i) => (
+                      <div key={i} className="tab-pane scrollbar fade" id={`${t.slug}-44`} role="tabpanel" aria-labelledby={`${t.slug}`}>
+                          {renderHTML(t.body)}
+                      </div>
+                    ))}
+                  </div>
+                </Fade>
+            </div>
+        </div>
+      } 
+          <div className="container">
+            <hr className="my-5" />
           </div>
 
-          {
-            !query.slug ? <p>En cours</p>
-
-            :
-
-         
-
-          <div className="row">
-            <div className="col-md-2">
-                <div className="nav flex-column text-center mt-5">
-                <Reveal left>
-                    {
-                    <Link href={`/theologie/sous-theme/${sousThemeActuel.slug}`}>
-                        <a className="btn btn-dark p-2 my-2" data-mdb-ripple-color="dark">
-                            {sousThemeActuel.name}
-                        </a>
-                    </Link>
-                    }
-                </Reveal>
-                </div>
-            </div>
-
-            <Reveal right>
-                <div className="col-md-10 mt-5">
-                    <Reveal left>
-                            <div className="nav nav-pills mb-3 text-center p-0" id="v-tabs-tab" role="tablist">
-                            {
-                                theologies.map((t, i) => (
-                                <a key={i} className="nav-link" id={`${t.slug}`} data-mdb-toggle="tab" href={`#${t.slug}-44`} role="tab" aria-controls={`${t.slug}-44`} aria-selected="true">{t.title}</a>
-                                ))
-                            }
-
-                            </div>
-
-                            <div className="tab-content" id="v-tabs-tabContent">
-                            {
-                                theologies.map((t, i) => (
-                            <div key={i} className="tab-pane scrollbar fade" id={`${t.slug}-44`} role="tabpanel" aria-labelledby={`${t.slug}`}>
-                                {renderHTML(t.body)}
-                            </div>
-                            ))
-                            }
-
-                            </div>
-                    </Reveal>
-                </div>
-            </Reveal>
-        </div>
-
-
-}
-          
-            <div className="container">
-            <hr className="my-5" />
-            </div>
-
-            </div>
-          
-
-
+          </div>
         </div>
       <Footer />
     </>
@@ -171,4 +176,4 @@ SingleSousTheologie.getInitialProps = ({ query }) => {
 };
 
 
-export default SingleSousTheologie;
+export default withRouter(SingleSousTheologie);

@@ -1,12 +1,11 @@
 import React from 'react';
 import Footer from '../../components/Footer';
-import Skeleton from 'react-loading-skeleton-2';
 import HeaderOther from '../../components/HeaderOther';
 import Head from 'next/head';
 import {list} from '../../actions/videos';
-import Link from 'next/link';
 import { DOMAIN, APP_NAME } from '../../config';
 import { withRouter } from 'next/router';
+import MonSkeleton from '../../components/monSkeleton';
 
 const Videos = ({ videos, router }) => {
 
@@ -41,41 +40,23 @@ const Videos = ({ videos, router }) => {
           <div className='container'>
             <h1 className='h1'>Vidéos</h1>
           <div className='row'>
-              {
-                !videos ? 
-                <>
-                  <Skeleton count={10}/>
-              <p>
-            Contenu bientôt disponible...
-              </p> 
-                </> :
-                videos.map((video, i) => (
-                  <div key={i} className="col-md-4">
-                  <div className="card" style={{ height: '300px' }}>
-                  <div className="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                    <Link href={`/videos/${video.slug}`}>
-                      <a>
-                        <div className="mask"></div>
-                      </a>
-                    </Link>
-                  <img src="https://res.cloudinary.com/basebiblique/image/upload/v1658598522/video-thumbnail_muc9ab.jpg" className="card-img-top img-fluid" alt="Video"/>
-                  </div>
-                  
+            {videos.length === 0 ? (
+              <MonSkeleton />
+              ) : ( videos.map((video, i) => (
+                <div key={i} className="col-md-4">
+                  <div className="card" style={{ height: '350px' }}>
+                    <h5 className="card-title couleur p-3">{video.title}</h5>
                     <div className="card-body">
-                      <h5 className="card-title">{video.title}</h5>
-                    </div>
+                    <div className='body_video text-center p-3' dangerouslySetInnerHTML={{ __html: video.body }}></div>
                   </div>
                 </div>
-                ))
-              }
-          </div>
+              </div>
+              )))}
+            </div>
 
-           
           </div>
-        </div>
-        <div className='container'>
-          <hr className="my-5" />
-        </div>
+          </div>
+        <div className='container'><hr className="my-5" /></div>
       <Footer/>
     </>
   );

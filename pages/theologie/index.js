@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Footer from '../../components/Footer';
-import renderHTML from 'react-render-html';
 import HeaderOther from '../../components/HeaderOther';
 import {list} from '../../actions/theologie';
 import { allTheme } from '../../actions/theologieTheme';
 import { withRouter } from 'next/router';
 import { DOMAIN, APP_NAME } from '../../config';
 import Link from 'next/link';
-import Reveal from 'react-reveal/Fade';
+import { Fade } from "react-awesome-reveal";
+import MonSkeleton from '../../components/monSkeleton';
 
 const Theologie = ({ router }) => {
 
@@ -64,15 +64,16 @@ useEffect(() => {
             <h1 className='h1'>Théologie</h1>
             <p>Merci de choisir un thème</p>
 
-            <Reveal left>
-            <div className='list_theme'>
-              {themes.map((t, i) => (
-                <Link key={i} href={`/theologie/${t.slug}`}>
-                  <a className="nav-link btn mx-2 btn-outline-dark" data-mdb-ripple-color="dark">{t.name}</a>
-                </Link>
-              ))}
-            </div>
-            </Reveal>
+            <Fade cascade damping={0.1}>
+              <div className='list_theme'>
+                {themes.length === 0 ? <MonSkeleton /> : (
+                  themes.map((t, i) => (
+                  <Link key={i} href={`/theologie/${t.slug}`}>
+                    <a className="nav-link btn mx-2 btn-outline-dark" data-mdb-ripple-color="dark">{t.name}</a>
+                  </Link>
+                )))}
+              </div>
+            </Fade>
             
           </div>
           <div className="container">

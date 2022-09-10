@@ -5,9 +5,7 @@ import dynamic from 'next/dynamic';
 import { withRouter } from 'next/router';
 import { singleTheologie, updateTheologie } from '../../actions/theologie';
 import { all_sous_Theme } from '../../actions/theologieSousTheme';
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import '../../node_modules/react-quill/dist/quill.snow.css';
-import { QuillModules, QuillFormats } from '../../helpers/quil';
+const RichTextEditor = dynamic(() => import('@mantine/rte'), { ssr: false });
 import { API } from '../../config';
 import Noty from 'noty';
 
@@ -25,11 +23,11 @@ const TheologieUpdate = ({ router }) => {
         formData: typeof window !== 'undefined' && new FormData(),
     });
 
-    
+
     const { error, success, formData, title } = values;
 
-     useEffect(() => {
-        setValues({ ...values, formData});
+    useEffect(() => {
+        setValues({ ...values, formData });
         initTheologie();
         initSousThemes();
     }, [router]);
@@ -68,18 +66,18 @@ const TheologieUpdate = ({ router }) => {
 
     const handleToggle = t => () => {
         setValues({ ...values, error: '' });
-              
+
         const clickedTheme = checked.indexOf(t);
         const sousThemes = [...checked]
-      
+
         if (clickedTheme === -1) {
-          sousThemes.push(t);
+            sousThemes.push(t);
         } else {
-          sousThemes.splice(clickedTheme, 1);
+            sousThemes.splice(clickedTheme, 1);
         }
         setChecked(sousThemes);
         formData.set('theologieSousThemes', sousThemes);
-      };
+    };
 
     const findOutSousTheme = t => {
         const result = checked.indexOf(t);
@@ -94,27 +92,25 @@ const TheologieUpdate = ({ router }) => {
         return (
             theologieSousThemes && theologieSousThemes.map((t, i) => (
                 <div key={i} className='form-check form-switch'>
-                    <input onChange={handleToggle(t._id)} checked={findOutSousTheme(t._id)} className="form-check-input" type="checkbox" id={t.name}/>
+                    <input onChange={handleToggle(t._id)} checked={findOutSousTheme(t._id)} className="form-check-input" type="checkbox" id={t.name} />
                     <label className="form-check-label" htmlFor={t.name}>{t.name}</label>
                 </div>
             ))
         );
-      };
+    };
 
     const handleChange = name => e => {
-        // console.log(e.target.value);
         const value = name === 'photo' ? e.target.files[0] : e.target.value;
         formData.set(name, value);
         setValues({ ...values, [name]: value, formData, error: '' });
-      };
-      
-      const handleBody = e => {
-        // console.log(e);
+    };
+
+    const handleBody = e => {
         setBody(e);
         formData.set('body', e);
-      };
+    };
 
-      const editTheologie = e => {
+    const editTheologie = e => {
         e.preventDefault();
         updateTheologie(formData, router.query.slug).then(data => {
             if (data.error) {
@@ -125,7 +121,7 @@ const TheologieUpdate = ({ router }) => {
                     layout: 'topRight',
                     text: data.error,
                     timeout: 3000
-                  }).show();
+                }).show();
             } else {
                 setValues({ ...values, title: '', success: `Enseignement mis à jour` });
                 setBody('');
@@ -144,33 +140,29 @@ const TheologieUpdate = ({ router }) => {
     const updateTheologieForm = () => {
         return (
             <>
-            <form onSubmit={editTheologie}>
+                <form onSubmit={editTheologie}>
 
-              <div className="row">
-                <div className='col-lg-8 col-md-8 col-sm-12'>
-                  <span>Veuillez saisir le titre de l'enseignement</span>
-                  
-                  <div className="form-outline mb-4">
-                    <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required />
-                  </div>
+                    <div className="row">
+                        <div className='col-lg-8 col-md-8 col-sm-12'>
+                            <span>Veuillez saisir le titre de l'enseignement</span>
 
-                  <span>Veuillez saisir le contenu de l'enseignement</span>
-                  <ReactQuill onChange={handleBody} 
-                  value={body} 
-                  className="quill_form" modules={QuillModules} formats={QuillFormats} placeholder="Saisissez le contenu de la page de l'enseignement..."/>
-                </div>
+                            <div className="form-outline mb-4">
+                                <input type="text" value={title} onChange={handleChange('title')} id="titreEnseignement" className="form-control" required />
+                            </div>
 
-                <div className='col-lg-4 col-md-4 col-sm-12'>
-                        <p>Liste des sous-thèmes</p>
-                        {showSousThemes()}
-                </div>
-              </div>
+                            <span>Veuillez saisir le contenu de l'enseignement</span>
+                            <RichTextEditor value={body || " "} onChange={handleBody} placeholder="Saisissez le contenu de la page de l'enseignement..." />
+                        </div>
 
-            <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Modifier</button>
-           
-            </form>
+                        <div className='col-lg-4 col-md-4 col-sm-12'>
+                            <p>Liste des sous-thèmes</p>
+                            {showSousThemes()}
+                        </div>
+                    </div>
 
-           
+                    <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Modifier</button>
+
+                </form>
             </>
         )
     }

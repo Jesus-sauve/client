@@ -59,3 +59,18 @@ export const remove_sous_Theme = (slug) => {
         })
         .catch(err => console.log(err));
 };
+
+export const update_sous_Theme = (theme, slug) => {
+
+    return fetch(`${API}/theologie-sous-theme-actuel/${slug}`, {
+        method: 'PUT',
+        headers: {
+            Accept: 'application/json'
+        },
+        body: theme
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};

@@ -103,6 +103,8 @@
 
 .contact_form .formulaire {
   padding: 0 12%;
+  position: relative;
+  z-index: 1;
 }
 .connexion_info {
   background: black;
@@ -433,4 +435,69 @@ display: flex;
 .page_enseignement a.btn.m-2.btn-dark:hover, .all_pages .btn-retour:hover {
   color: white !important;
   background-color: #c5a546 !important;
+}
+
+.monAnimation{
+	animation: zoomInFaster 35s linear infinite 0s;
+    -o-animation: zoomInFaster 35s linear infinite 0s;
+    -moz-animation: zoomInFaster 35s linear infinite 0s;
+    -webkit-animation: zoomInFaster 35s linear infinite 0s;
+}
+
+    /* zoomInFaster */
+@keyframes zoomInFaster {
+    0% {
+        transform: scale(1);
+        -ms-transform: scale(1);
+    }
+    30% {
+        transform: scale(1.25);
+        -ms-transform: scale(1.25);
+    }
+    100% {
+        transform: scale(1);
+        -ms-transformm: scale(1);
+    }
+}
+@-o-keyframes zoomInFaster {
+    0% {
+        transform: scale(1);
+        -ms-transform: scale(1);
+    }
+    30% {
+        transform: scale(1.25);
+        -ms-transform: scale(1.25);
+    }
+    100% {
+        transform: scale(1);
+        -ms-transformm: scale(1);
+    }
+}
+@-moz-keyframes zoomInFaster {
+    0% {
+        transform: scale(1);
+        -ms-transform: scale(1);
+    }
+    30% {
+        transform: scale(1.25);
+        -ms-transform: scale(1.25);
+    }
+    100% {
+        transform: scale(1);
+        -ms-transformm: scale(1);
+    }
+}
+@-webkit-keyframes zoomInFaster {
+    0% {
+        transform: scale(1);
+        -ms-transform: scale(1);
+    }
+    30% {
+        transform: scale(1.25);
+        -ms-transform: scale(1.25);
+    }
+    100% {
+        transform: scale(1);
+        -ms-transformm: scale(1);
+    }
 }

@@ -4,8 +4,6 @@ import Footer from '../../../../components/Footer';
 import HeaderOther from '../../../../components/HeaderOther';
 import Link from 'next/link';
 import { list, removeThheologie } from '../../../../actions/theologie';
-import moment from 'moment';
-import 'moment/locale/fr';
 
 function GestionT() {
   const [theologies, setTheologies] = useState([]);
@@ -15,81 +13,78 @@ function GestionT() {
     loadTheologies()
   }, []);
 
- const loadTheologies = () => {
-  list().then(data => {
-    if(data.error) {
-      console.log(data.error);
-    } else {
-      setTheologies(data);
-    }
-  });
- };
+  const loadTheologies = () => {
+    list().then(data => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setTheologies(data);
+      }
+    });
+  };
 
- const deleteTheologie = (slug) => {
-  removeThheologie(slug).then(data => {
-    if(data.error) {
-      console.log(data.erro);
-    } else {
-      setMessage(data.message)
-      loadTheologies();
-    }
-  })
- }
-
- const deleteConfirm = (slug) => {
-  let answer = window.confirm("Confirmez-vous cette suppression ?")
-  if(answer) {
-    deleteTheologie(slug)
+  const deleteTheologie = (slug) => {
+    removeThheologie(slug).then(data => {
+      if (data.error) {
+        console.log(data.erro);
+      } else {
+        setMessage(data.message)
+        loadTheologies();
+      }
+    })
   }
- }
 
- const showUpdateButton = (theologie) => {
-  return (
-    <Link href={`/admin/theologie/${theologie.slug}`}>
-      <a className='btn m-1 btn-sm btn-dark'>Modifier</a>
-    </Link>
-  )
- }
+  const deleteConfirm = (slug) => {
+    let answer = window.confirm("Confirmez-vous cette suppression ?")
+    if (answer) {
+      deleteTheologie(slug)
+    }
+  }
 
-const showAllTheologies = () => {
-  return theologies.map((theologie, i) => {
+  const showUpdateButton = (theologie) => {
     return (
-      <div key={i} className="mt-2">
-        <h3>{theologie.title}</h3>
-        <p className="lead pt-1 pb-1 mark ml-1 p-1 fs-6">
-          Posté {moment(theologie.updatedAt).fromNow()}
-        </p>
-        <button className='btn m-1 btn-sm btn-danger' onClick={() => deleteConfirm(theologie.slug)}>
-          supprimer
-        </button>
-       
-        {showUpdateButton(theologie)}
-      </div>
+      <Link href={`/admin/theologie/${theologie.slug}`}>
+        <a className='btn m-1 btn-sm btn-dark'>Modifier</a>
+      </Link>
     )
-  })
-}
+  }
+
+  const showAllTheologies = () => {
+    return theologies.map((theologie, i) => {
+      return (
+        <div key={i} className="mt-2">
+          <h3>{theologie.title}</h3>
+          <button className='btn m-1 btn-sm btn-danger' onClick={() => deleteConfirm(theologie.slug)}>
+            supprimer
+          </button>
+
+          {showUpdateButton(theologie)}
+        </div>
+      )
+    })
+  }
 
   return (
     <>
-    <Head>
+      <Head>
         <title>Basebiblique | Gestion des enseignements</title>
-    </Head>
+      </Head>
       <HeaderOther />
-        <div className="all_pages">
-          <div className='container'>
-          <Link href="/admin/theologie">
-              <a className="btn m-2 btn-dark btn-retour">
-                  Retour
-              </a> 
-          </Link>
-            <h1 className='h1'>Gestion des enseignements</h1>
-            {message && <div className='alert alert-warning'>{message}</div>}
-            {showAllTheologies()}
-          </div>
-        </div>
+      <div className="all_pages">
         <div className='container'>
-          <hr className="my-5" />
+          <Link href="/admin/theologie">
+            <a className="btn m-2 btn-dark btn-retour">
+              Retour
+            </a>
+          </Link>
+          <h1 className='h1'>Gestion des enseignements</h1>
+          {message && <div className='alert alert-warning'>{message}</div>}
+          {showAllTheologies()}
         </div>
+      </div>
+      <div className='container'>
+        <hr className="my-5" />
+      </div>
       <Footer />
     </>
   );

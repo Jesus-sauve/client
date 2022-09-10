@@ -1,62 +1,61 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import Navbar from './Navbar';
 import Link from 'next/link';
 
 function Header() {
 
- 
   return (
     <header>
       <Navbar />
       <div id="introCarousel" className="carousel slide carousel-fade shadow-2-strong" data-mdb-ride="carousel">
-    
+
         <ol className="carousel-indicators">
           <li data-mdb-target="#introCarousel" data-mdb-slide-to="0" className="active"></li>
           <li data-mdb-target="#introCarousel" data-mdb-slide-to="1"></li>
           <li data-mdb-target="#introCarousel" data-mdb-slide-to="2"></li>
         </ol>
-  
-    
+
+
         <div className="carousel-inner">
           <div className="carousel-item active">
-          <img src="./images/image1.jpg" className="d-block w-100 bg-image h-100 img-fluid" alt="Wild Landscape"/>
-            <div className="mask" style={{backgroundColor: '#00000078'}}>
+            <img src="./images/image1.jpg" className="d-block w-100 bg-image h-100 img-fluid monAnimation" alt="Wild Landscape" />
+            <div className="mask" style={{ backgroundColor: '#00000078' }}>
               <div className="d-flex justify-content-center align-items-center h-100">
                 <div className="text-white text-center">
                   <div className='ecriture_carousel_1'>
                     <h1>Base Biblique</h1>
-                    <p>Retour aux fondements bibliques</p> 
+                    <p>Retour aux fondements bibliques</p>
                   </div>
-                
+
                 </div>
               </div>
             </div>
           </div>
-  
+
           <div className="carousel-item">
-          <img src="./images/image2.jpg" className="d-block w-100 bg-image h-100 img-fluid" alt="Wild Landscape"/>
-            <div className="mask" style={{backgroundColor: '#00000078'}}>
+            <img src="./images/image2.jpg" className="d-block w-100 bg-image h-100 img-fluid monAnimation" alt="Wild Landscape" />
+            <div className="mask" style={{ backgroundColor: '#00000078' }}>
               <div className="d-flex justify-content-center align-items-center h-100">
                 <div className="text-white text-center div_accueil_news_letter">
 
                   <div className="accueil_news_letter">
                     <h1>Base Biblique</h1>
-                      <h2 className='text-white'>Découvrez nos enseignements</h2><br />
-                      <div className="text-center mb-3">
+                    <h2 className='text-white'>Découvrez nos enseignements</h2><br />
+                    <div className="text-center mb-3">
                       <Link href="/enseignements">
                         <a className="btn myBtn px-3 mx-2 text-black"> Enseignements</a>
                       </Link>
-                      </div>
+                    </div>
 
                   </div>
                 </div>
               </div>
             </div>
           </div>
-  
+
           <div className="carousel-item">
-          <img src="./images/image3.jpg" className="d-block w-100 bg-image h-100 img-fluid" alt="Wild Landscape"/>
-            <div className="mask" style={{backgroundColor: '#00000078'}}>
+            <img src="./images/image3.jpg" className="d-block w-100 bg-image h-100 img-fluid monAnimation" alt="Wild Landscape" />
+            <div className="mask" style={{ backgroundColor: '#00000078' }}>
               <div className="d-flex justify-content-center align-items-center h-100">
                 <div className="text-white text-center">
                   <div className="sola_contenu">
@@ -73,7 +72,7 @@ function Header() {
           </div>
         </div>
       </div>
-      
+
     </header>
   )
 }

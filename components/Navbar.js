@@ -23,36 +23,36 @@ function Navbar() {
     const showDefaultDrawer = () => {
         setSize('default');
         setVisible(true);
-      };
-    
-      const showLargeDrawer = () => {
+    };
+
+    const showLargeDrawer = () => {
         setSize('large');
         setVisible(true);
-      };
-    
-      const onClose = () => {
-        setVisible(false);
-      };
+    };
 
-      useEffect(() => {
+    const onClose = () => {
+        setVisible(false);
+    };
+
+    useEffect(() => {
         process.browser && setCurrent(window.location.pathname);
-      }, [process.browser && window.location.pathname]);
+    }, [process.browser && window.location.pathname]);
 
     const router = useRouter();
 
-      const logout = async () => {
-    dispatch({ type: "LOGOUT" });
-    window.localStorage.removeItem("user");
-    const { data } = await axios.get(`${API}/logout`);
-    new Noty({
-        type: 'info',
-        theme: 'metroui',
-        layout: 'topRight',
-        text: `Vous êtes déconnecté.`,
-        timeout: 3000
-      }).show();
-    Router.push("/connexion");
-  };
+    const logout = async () => {
+        dispatch({ type: "LOGOUT" });
+        window.localStorage.removeItem("user");
+        const { data } = await axios.get(`${API}/logout`);
+        new Noty({
+            type: 'info',
+            theme: 'metroui',
+            layout: 'topRight',
+            text: `Vous êtes déconnecté.`,
+            timeout: 3000
+        }).show();
+        Router.push("/connexion");
+    };
 
     const isActiveNav = (r) => {
         if (r === router.pathname) {
@@ -62,182 +62,180 @@ function Navbar() {
         }
     }
 
-  return (
-    <nav className="navbar navbar-expand-lg fixed-top navbar-dark navbar-bg d-lg-block" style={{zIndex: '2000'}}>
-        <div className="container header_top ">
-            <div className="header_top_1">
-                <div className="header_top_1_logo">
-                    {/* <img src="./images/logo.png" alt="logo" style={{ width: 'auto', height: "70px" }} /> */}
-                    <div className='logo_header'></div>
-                <Link href="/">
-                <a>Base biblique</a> 
-                </Link>
-                </div>
-                <p>L'Évangile est une puissance de Dieu pour le salut de quiconque croit ...</p>
-            </div>
-
-            <div className="header_top_2">
-                <div className="header_top_2_coordonnees">
-                    <p className="numero mx-2"><i className="fa-solid fa-phone mx-1"></i>+1 (443) 839-4079</p>
-                    <p className="mail mx-2"><i className="fa-solid fa-envelope mx-1"></i>basebiblique@gmail.com</p>
-                </div>
-            </div>
-        </div>
-
-        <div className="container header_bottom">
-            <ul className="navbar-nav onglet_1 mb-2 mb-lg-0">
-                <li className="nav-item">
-                <Link href="/">
-                <a className={"nav-link" + isActiveNav('/')}>Base biblique</a> 
-                </Link>
-                </li>
-                <li className="nav-item">
-                <Link href="/enseignements">
-                    <a className={"nav-link" + isActiveNav('/enseignements')}>Enseignements</a> 
-                </Link>
-                </li>
-                <li className="nav-item">
-                <Link href="/theologie">
-                    <a className={"nav-link" + isActiveNav('/theologie')}>Théologie</a> 
-                </Link>
-                </li>
-                <li className="nav-item">
-                <Link href="/videos">
-                    <a className={"nav-link" + isActiveNav('/videos')}>Vidéos</a> 
-                </Link>
-                </li>
-                <li className="nav-item">
-                <Link href="/bible">
-                    <a className={"nav-link" + isActiveNav('/bible')}>Bible en ligne</a> 
-                </Link>
-                </li>
-                <li className="nav-item">
-                <Link href="/church">
-                    <a className={"nav-link" + isActiveNav('/church')}>Church Map</a> 
-                </Link>
-                </li>
-                <li className="nav-item">
-                <Link href="/contact">
-                    <a className={"nav-link" + isActiveNav('/contact')}>Contact</a> 
-                </Link>
-                </li>
-            </ul>
-
-            <div>
-                <ul className="navbar-nav onglet_2 list-inline">
-                    {user === null && (
-                        <Link href="/connexion"><a className="btn btn-sm myBtn px-3 mx-2 text-black"><i className="fas fa-braille"></i> Connexion</a></Link>
-                    )}
-                   
-
-                    {user !== null && (
-                    <div className="dropdown">
-                    <a
-                        className="btn myBtn text-black dropdown-toggle"
-                        href="#"
-                        role="button"
-                        id="dropdownMenuLink"
-                        data-mdb-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        Administration
-                    </a>
-
-                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li>
-                            <Link href="/admin">
-                                <a className="btn btn-dark"><i className="fas fa-lock"></i> Gestionnaire</a>
-                            </Link>
-                        </li>
-                        <li>
-                            <a className="btn btn-dark my-2" onClick={logout}><i className="fas fa-sign-out-alt"></i> Déconnexion</a>    
-                        </li>
-                    </ul>
+    return (
+        <nav className="navbar navbar-expand-lg fixed-top navbar-dark navbar-bg d-lg-block" style={{ zIndex: '2000' }}>
+            <div className="container header_top ">
+                <div className="header_top_1">
+                    <div className="header_top_1_logo">
+                        <div className='logo_header'></div>
+                        <Link href="/">
+                            <a>Base biblique</a>
+                        </Link>
                     </div>
+                    <p>L'Évangile est une puissance de Dieu pour le salut de quiconque croit ...</p>
+                </div>
 
-                    )}
-
-                </ul>
+                <div className="header_top_2">
+                    <div className="header_top_2_coordonnees">
+                        <p className="numero mx-2"><i className="fa-solid fa-phone mx-1"></i>+1 (443) 839-4079</p>
+                        <p className="mail mx-2"><i className="fa-solid fa-envelope mx-1"></i>basebiblique@gmail.com</p>
+                    </div>
+                </div>
             </div>
-                
-                
+
+            <div className="container header_bottom">
+                <ul className="navbar-nav onglet_1 mb-2 mb-lg-0">
+                    <li className="nav-item">
+                        <Link href="/">
+                            <a className={"nav-link" + isActiveNav('/')}>Base biblique</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link href="/enseignements">
+                            <a className={"nav-link" + isActiveNav('/enseignements')}>Enseignements</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link href="/theologie">
+                            <a className={"nav-link" + isActiveNav('/theologie')}>Théologie</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link href="/videos">
+                            <a className={"nav-link" + isActiveNav('/videos')}>Vidéos</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link href="/bible">
+                            <a className={"nav-link" + isActiveNav('/bible')}>Bible en ligne</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link href="/church">
+                            <a className={"nav-link" + isActiveNav('/church')}>Church Map</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link href="/contact">
+                            <a className={"nav-link" + isActiveNav('/contact')}>Contact</a>
+                        </Link>
+                    </li>
+                </ul>
+
+                <div>
+                    <ul className="navbar-nav onglet_2 list-inline">
+                        {user === null && (
+                            <Link href="/connexion"><a className="btn btn-sm myBtn px-3 mx-2 text-black"><i className="fas fa-braille"></i> Connexion</a></Link>
+                        )}
+
+                        {user !== null && (
+                            <div className="dropdown">
+                                <a
+                                    className="btn myBtn text-black dropdown-toggle"
+                                    href="#"
+                                    role="button"
+                                    id="dropdownMenuLink"
+                                    data-mdb-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    Administration
+                                </a>
+
+                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <li>
+                                        <Link href="/admin">
+                                            <a className="btn btn-dark"><i className="fas fa-lock"></i> Gestionnaire</a>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <a className="btn btn-dark my-2" onClick={logout}><i className="fas fa-sign-out-alt"></i> Déconnexion</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        )}
+
+                    </ul>
+                </div>
+
+
                 <Button id="side_bar" type="dark" onClick={showDefaultDrawer}>
                     <i className="fa-solid fa-bars"></i>
                 </Button>
-        </div>
+            </div>
 
-        <Drawer
-        id="drawer_side"
-        title="Base Biblique"
-        placement="right"
-        size={size}
-        onClose={onClose}
-        visible={visible}
-      >
-        <div className='onglet_mobile'>
-            <li className="nav-item">
-            <Link href="/">
-            <a className={"nav-link" + isActiveNav('/')}>Base biblique</a> 
-            </Link>
-            </li>
-            <li className="nav-item">
-            <Link href="/enseignements">
-                <a className={"nav-link" + isActiveNav('/enseignements')}>Enseignements</a> 
-            </Link>
-            </li>
-            <li className="nav-item">
-            <Link href="/theologie">
-                <a className={"nav-link" + isActiveNav('/theologie')}>Théologie</a> 
-            </Link>
-            </li>
-            <li className="nav-item">
-            <Link href="/videos">
-                <a className={"nav-link" + isActiveNav('/videos')}>Vidéos</a> 
-            </Link>
-            </li>
-            <li className="nav-item">
-            <Link href="/bible">
-                <a className={"nav-link" + isActiveNav('/bible')}>Bible en ligne</a> 
-            </Link>
-            </li>
-            <li className="nav-item">
-            <Link href="/church">
-                <a className={"nav-link" + isActiveNav('/church')}>Church Map</a> 
-            </Link>
-            </li>
-            <li className="nav-item">
-            <Link href="/contact">
-                <a className={"nav-link" + isActiveNav('/contact')}>Contact</a> 
-            </Link>
-            </li>
-            <li>
-                <p className="numero mx-2"><i className="fa-solid fa-phone mx-1"></i>+1 44 38 39 40 79</p>
-            </li>
-            <li>
-                <p className="mail mx-2"><i className="fa-solid fa-envelope mx-1"></i>basebiblique@hotmail.com</p>
-            </li>
-            <li>
-                {user === null && (
-                    <Link href="/connexion"><a className="btn btn-sm myBtn px-3 mx-2 text-black"><i className="fas fa-braille"></i> Connexion</a></Link>
-                )}
-            </li>
-            <li>
-                {user !== null && user.role.includes("Admin") && (
-                <Link href="/admin">
-                    <a className="btn btn-sm btn-black my-2 text-black"><i className="fas fa-lock"></i> Administration</a>
-                </Link>
-                )}
-            </li>
-            <li>
-                {user !== null && (
-                    <a className="btn btn-sm btn-black my-2 text-black" onClick={logout}><i className="fas fa-sign-out-alt"></i> Déconnexion</a>
-                )}
-            </li>
-        </div>
-      </Drawer>
-      
-    </nav>
-  )
+            <Drawer
+                id="drawer_side"
+                title="Base Biblique"
+                placement="right"
+                size={size}
+                onClose={onClose}
+                visible={visible}
+            >
+                <div className='onglet_mobile'>
+                    <li className="nav-item">
+                        <Link href="/">
+                            <a className={"nav-link" + isActiveNav('/')}>Base biblique</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link href="/enseignements">
+                            <a className={"nav-link" + isActiveNav('/enseignements')}>Enseignements</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link href="/theologie">
+                            <a className={"nav-link" + isActiveNav('/theologie')}>Théologie</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link href="/videos">
+                            <a className={"nav-link" + isActiveNav('/videos')}>Vidéos</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link href="/bible">
+                            <a className={"nav-link" + isActiveNav('/bible')}>Bible en ligne</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link href="/church">
+                            <a className={"nav-link" + isActiveNav('/church')}>Church Map</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link href="/contact">
+                            <a className={"nav-link" + isActiveNav('/contact')}>Contact</a>
+                        </Link>
+                    </li>
+                    <li>
+                        <p className="numero mx-2"><i className="fa-solid fa-phone mx-1"></i>+1 44 38 39 40 79</p>
+                    </li>
+                    <li>
+                        <p className="mail mx-2"><i className="fa-solid fa-envelope mx-1"></i>basebiblique@hotmail.com</p>
+                    </li>
+                    <li>
+                        {user === null && (
+                            <Link href="/connexion"><a className="btn btn-sm myBtn px-3 mx-2 text-black"><i className="fas fa-braille"></i> Connexion</a></Link>
+                        )}
+                    </li>
+                    <li>
+                        {user !== null && user.role.includes("Admin") && (
+                            <Link href="/admin">
+                                <a className="btn btn-sm btn-black my-2 text-black"><i className="fas fa-lock"></i> Administration</a>
+                            </Link>
+                        )}
+                    </li>
+                    <li>
+                        {user !== null && (
+                            <a className="btn btn-sm btn-black my-2 text-black" onClick={logout}><i className="fas fa-sign-out-alt"></i> Déconnexion</a>
+                        )}
+                    </li>
+                </div>
+            </Drawer>
+
+        </nav>
+    )
 }
 
 export default Navbar;

@@ -23,7 +23,6 @@ class MyDocument extends Document {
             <Html lang='fr'>
                 <Head>
                 <meta charSet="UTF-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.css" />
                 <link rel="shortcut icon" href="https://res.cloudinary.com/basebiblique/image/upload/v1660038236/logo_sqxb10.png" />

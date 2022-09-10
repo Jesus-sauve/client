@@ -10,23 +10,23 @@ function Theologie() {
   return (
     <>
       <Head>
-          <title>Basebiblique | Théologie</title>
+        <title>Basebiblique | Théologie</title>
       </Head>
       <HeaderOther />
-        <div className="all_pages">
-          <div className='container'>
-          <Link href="/admin/theologie/gestion">
-              <a className="btn m-2 btn-dark">
-                  Retour
-              </a> 
-          </Link>
-            
-            <Update />
-          </div>
-        </div>
+      <div className="all_pages">
         <div className='container'>
-          <hr className="my-5" />
+          <Link href="/admin/theologie/gestion">
+            <a className="btn m-2 btn-dark">
+              Retour
+            </a>
+          </Link>
+
+          <Update />
         </div>
+      </div>
+      <div className='container'>
+        <hr className="my-5" />
+      </div>
       <Footer />
     </>
   );

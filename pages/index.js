@@ -2,17 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import Skeleton from 'react-loading-skeleton-2';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import {listEnseignementWithCategories} from '../actions/enseignement';
 import axios from 'axios';
-import moment from 'moment';
-import 'moment/locale/fr';
-import renderHTML from 'react-render-html';
 import { API, DOMAIN, APP_NAME } from '../config';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from "swiper";
+import MonSkeleton from '../components/monSkeleton';
 
 const Accueil = ({ enseignements, router }) => {
 
@@ -41,7 +38,6 @@ const Accueil = ({ enseignements, router }) => {
 
 
   const [presentation, setPresentation] = useState();
-  const [videos, setVideos] = useState([]);
   const [theologie, setTheologie] = useState([]);
 
   const ref = useRef(null);
@@ -50,19 +46,8 @@ const Accueil = ({ enseignements, router }) => {
     ref.current?.scrollIntoView({behavior: 'smooth'});
   };
 
-
-
-  const showVideos = () => {
-    axios.get(`${API}/videos`,)
-  .then(response => {
-    let limit = response.data.length - 1
-    let val = response.data[limit]
-    setVideos(val)
-  });
-  };
-
   const showTheologie = () => {
-    axios.get(`${API}/theologies`,)
+    axios.get(`${API}/theologie-sous-themes`,)
   .then(response => {
     let newInfo = response.data;
     setTheologie(newInfo)
@@ -81,11 +66,8 @@ const Accueil = ({ enseignements, router }) => {
 
   useEffect(() => {
     {callPresentation()}
-    {showVideos()}
     {showTheologie()}
   }, [])
-
-
 
   const showEnseignement = () => {
     return enseignements.map((item, i) => (
@@ -105,8 +87,7 @@ const Accueil = ({ enseignements, router }) => {
           <Link  href={`/enseignements/${item.slug}`}><a className="btn btn-sm btn-black mx-2 text-white">Voir plus</a></Link>
         </div>
       </div>
-      ))
-  }
+    ))}
 
   return (
     <div className='page_accueil'>
@@ -118,22 +99,18 @@ const Accueil = ({ enseignements, router }) => {
         <div className='all_pages presentation container'>
           <div className='mb-5'>
 
-            { !presentation ? 
-            <div className='container'>
-              <h1 className='h1'>Présentation</h1>
-              <Skeleton count={10}/>
-              <p>
-            Contenu bientôt disponible...
-              </p>
-            </div>
-            :
-            presentation.map(item => (
-                <div key={item._id}>
+            { !presentation ? (
+              <div className='container'>
+                <h1 className='h1'>Présentation</h1>
+                <MonSkeleton />
+              </div>
+            ) : (
+              presentation.map((item, i) => (
+                <div key={i}>
                   <h1 className='h1'>{item.title}</h1>
                   <div dangerouslySetInnerHTML={{ __html: item.body }}></div>
                 </div>
-              ))
-            }
+              )))}
            
         </div>
         <hr className="my-5" />
@@ -141,46 +118,23 @@ const Accueil = ({ enseignements, router }) => {
           <div className='bas_presentation container'>
             <div className="row">
             <h4 className='mb-5 titres_bas_presentation'><strong>Nos dernières actualités</strong></h4>
-            
-            
-            { !enseignements ? 
-            <>
-              <Skeleton count={10}/>
-              <p>
-            Contenu bientôt disponible...
-              </p>
-            </>
-            :
-            showEnseignement()}
+                        
+            { enseignements.length == 0 ? ( <MonSkeleton />) : showEnseignement()}
             </div>
 
             <div className='video'>
               <h4 className='mb-5 titres_bas_presentation'><strong>Nouvelle prédication</strong></h4>
-              <div className="bg-image hover-overlay ripple shadow-2-strong rounded-5">
-                <img src="./images/video-thumb.jpg" alt="" className="img-fluid" />
-                {
-                  !videos ? <Skeleton count={1}/> : 
-                  <Link href={`videos/${videos.slug}`}>
-                    <a>
-                      <div className="mask" style={{backgroundColor: '#00000078'}}></div>
-                    </a>
-                  </Link>
-                }
+              <div className="bg-image hover-overlay p-2 pb-0 ripple shadow-2-strong rounded-5">
+                 <video width="200" height="115" playsInline autoPlay muted loop>
+                  <source className="img-fluid" src="https://res.cloudinary.com/horeb-technology/video/upload/v1662710057/horeb-network/Ch%C3%83_teau_-_123082_rg2euz.mp4" type="video/mp4" />
+                </video>
               </div>
               <div className='video_contenu'>
-                <p>{!videos ? <Skeleton count={1}/> : videos.title}</p>
+                 <span className='pb-3 mt-1 text-center text-black'>
+                    Vous retrouverez dans cette section vidéo tout un ensemble d'enseignements vidéo qui vous édifieront.
+                  </span>
                 
-                  {
-                    !videos ? <Skeleton count={1}/> :
-                    <span> Posté {moment(videos.updatedAt).fromNow()}</span>
-                  }
-                
-                    <span className='pb-3 mt-4 text-center text-black'>
-                      Vous retrouverez dans cette section vidéo tout un ensemble d'enseignements vidéo qui vous édifieront.
-                      Choisissez de visualiser toutes les vidéos ou celle juste publiée.
-                    </span>
-                
-                <Link  href="/videos"><a className="btn btn-sm btn-black mt-4 mx-2 text-white">Voir toutes les vidéos</a></Link>
+                <Link  href="/videos"><a className="btn btn-sm btn-black mt-4 mx-2 text-white">Voir nos vidéos</a></Link>
               </div>
             </div>
           </div>
@@ -199,70 +153,41 @@ const Accueil = ({ enseignements, router }) => {
 
           <h1 className="m-5 text-white h1">Théologie</h1>
 
-          <div className="row">
+          <div className="row theologie_new_style">
           <Swiper
-        slidesPerView={1}
-        spaceBetween={10}
-        navigation={true}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        breakpoints={{
-          640: {
-            slidesPerView: 1,
-            spaceBetween: 20,
-          },
-          768: {
-            slidesPerView: 2,
-            spaceBetween: 40,
-          },
-          1024: {
-            slidesPerView: 3,
-            spaceBetween: 50,
-          },
-        }}
-        modules={[Autoplay, Pagination, Navigation]}
-        className="mySwiper"
-      >
-         
-              {
-                !theologie ?
-                <>
-                  <Skeleton count={10}/>
-                <p>
-              Contenu bientôt disponible...
-                </p>
-                </> :
+            slidesPerView={1}
+            spaceBetween={10}
+            navigation={true}
+            autoplay={{ delay: 2500,disableOnInteraction: false,}}
+            pagination={{ clickable: true,}}
+            breakpoints={{
+              640: { slidesPerView: 1, spaceBetween: 20,},
+              768: { slidesPerView: 2, spaceBetween: 40,},
+              1024: { slidesPerView: 3, spaceBetween: 50,},
+            }}
+            modules={[Autoplay, Pagination, Navigation]}
+            className="mySwiper">
+              { theologie.length === 0 ? (<MonSkeleton />) : (
                 theologie.map((t, i) => (
-                  <SwiperSlide>
-                <div key={i} className="mx-1">
-                  <div className="card text-white" style={{backgroundColor: '#00000078'}}>
-                    <div className="card-body">
-                      <h5 className="card-title text-white">{t.title}</h5>
-                      <div className="card-text">{renderHTML(t.excerpt)}</div>
-                      <Link  href="/theologie"><a className="btn btn-sm myBtn mx-2 text-black">Voir plus</a></Link>
-
+                  <SwiperSlide key={i}>
+                    <div className="mx-1">
+                      <div className="card text-white" style={{backgroundColor: '#fff'}}>
+                        <div className="card-body">
+                          <h5 className="card-title text-black">{t.name}</h5>
+                          <Link  href={`/theologie/sous-theme/${t.slug}`}><a className="btn btn-sm myBtn mx-2 my-4 text-black">Voir plus</a></Link>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                </SwiperSlide>
-                ))
-              }
+                  </SwiperSlide>
+                )))}
                
             </Swiper>
             </div>
           </div>
-
         </section>
 
         <section className="my-5 solas container">
-
           <div className="row d-flex justify-content-center">
-
           <div id="carouselExampleTouch" className="carousel slide" data-mdb-touch="false">
             <div className="carousel-inner">
               <div className="carousel-item active">
@@ -318,53 +243,36 @@ const Accueil = ({ enseignements, router }) => {
         <div className="partie_trois_versets my-5">
         <div className='trois_versets container'>
           <Swiper
-        slidesPerView={1}
-        spaceBetween={10}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        breakpoints={{
-          640: {
-            slidesPerView: 1,
-            spaceBetween: 20,
-          },
-          768: {
-            slidesPerView: 1,
-            spaceBetween: 40,
-          },
-          1024: {
-            slidesPerView: 3,
-            spaceBetween: 50,
-          },
-        }}
-        modules={[Autoplay, Pagination]}
-        className="mySwiper"
-      >
-         <SwiperSlide>
-            <div className='verset_1 item'>
-              <i className="fa-solid fa-book-bible"></i>
-              <p>Jésus-Christ :<br /> « Le chemin, la vérité et la vie, nul ne vient au pere que par lui… »</p> 
-              <p className="verset">Jean 14 v 6</p>
-            </div>
-            </SwiperSlide>
-            <SwiperSlide>
-            <div  className='verset_1 item'>
-              <i className="fa-solid fa-book-bible"></i>
-              <p>Jésus-Christ :<br /> « Je suis la porte. Si quelqu'un entre par moi, il sera sauvé… »</p> 
-              <p className="verset">Jean 10 v 9</p>
-            </div>
-            </SwiperSlide>
-            <SwiperSlide>
-            <div  className='verset_1 item'>
-              <i className="fa-solid fa-book-bible"></i>
-              <p>« car le salaire du péché, c'est la mort ; mais le don gratuit de Dieu, c'est la vie éternelle en Jésus Christ notre Seigneur »</p> 
-              <p className="verset">Romains 6:23</p>
-            </div>
-            </SwiperSlide>
+            slidesPerView={1}
+            spaceBetween={10}
+            autoplay={{ delay: 2500, disableOnInteraction: false,}}
+            pagination={{ clickable: true, }}
+            breakpoints={{640: { slidesPerView: 1,spaceBetween: 20,},
+              768: {slidesPerView: 1,spaceBetween: 40,},
+              1024: {slidesPerView: 3,spaceBetween: 50,},}}
+            modules={[Autoplay, Pagination]}
+            className="mySwiper">
+              <SwiperSlide>
+              <div className='verset_1 item'>
+                <i className="fa-solid fa-book-bible"></i>
+                <p>Jésus-Christ :<br /> « Le chemin, la vérité et la vie, nul ne vient au pere que par lui… »</p> 
+                <p className="verset">Jean 14 v 6</p>
+              </div>
+              </SwiperSlide>
+              <SwiperSlide>
+              <div  className='verset_1 item'>
+                <i className="fa-solid fa-book-bible"></i>
+                <p>Jésus-Christ :<br /> « Je suis la porte. Si quelqu'un entre par moi, il sera sauvé… »</p> 
+                <p className="verset">Jean 10 v 9</p>
+              </div>
+              </SwiperSlide>
+              <SwiperSlide>
+              <div  className='verset_1 item'>
+                <i className="fa-solid fa-book-bible"></i>
+                <p>« car le salaire du péché, c'est la mort ; mais le don gratuit de Dieu, c'est la vie éternelle en Jésus Christ notre Seigneur »</p> 
+                <p className="verset">Romains 6:23</p>
+              </div>
+              </SwiperSlide>
             </Swiper>
         </div>
       </div>

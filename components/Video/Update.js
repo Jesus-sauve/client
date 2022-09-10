@@ -4,10 +4,7 @@ import Router from 'next/router';
 import dynamic from 'next/dynamic';
 import { withRouter } from 'next/router';
 import { singleVideo, updateVideo } from '../../actions/videos';
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import '../../node_modules/react-quill/dist/quill.snow.css';
-import { QuillModules, QuillFormats } from '../../helpers/quil';
-import { API } from '../../config';
+const RichTextEditor = dynamic(() => import('@mantine/rte'), { ssr: false });
 import Noty from 'noty';
 
 const VideoUpdate = ({ router }) => {
@@ -24,8 +21,8 @@ const VideoUpdate = ({ router }) => {
 
     const { error, success, formData, title } = values;
 
-     useEffect(() => {
-        setValues({ ...values, formData});
+    useEffect(() => {
+        setValues({ ...values, formData });
         initVideo();
     }, [router]);
 
@@ -43,19 +40,17 @@ const VideoUpdate = ({ router }) => {
     };
 
     const handleChange = name => e => {
-        // console.log(e.target.value);
         const value = name === 'photo' ? e.target.files[0] : e.target.value;
         formData.set(name, value);
         setValues({ ...values, [name]: value, formData, error: '' });
-      };
-      
-      const handleBody = e => {
-        // console.log(e);
+    };
+
+    const handleBody = e => {
         setBody(e);
         formData.set('body', e);
-      };
+    };
 
-      const editVideo = e => {
+    const editVideo = e => {
         e.preventDefault();
         updateVideo(formData, router.query.slug).then(data => {
             if (data.error) {
@@ -66,7 +61,7 @@ const VideoUpdate = ({ router }) => {
                     layout: 'topRight',
                     text: data.error,
                     timeout: 3000
-                  }).show();
+                }).show();
             } else {
                 setValues({ ...values, title: '', success: `Vidéo mis à jour` });
                 setBody('');
@@ -85,24 +80,22 @@ const VideoUpdate = ({ router }) => {
     const updateVideoForm = () => {
         return (
             <>
-            <form onSubmit={editVideo}>
+                <form onSubmit={editVideo}>
 
-              <div className="row">
-                <div className='col-lg-8 col-md-8 col-sm-12'>
-                  <span>Veuillez saisir le titre de la vidéo</span>
-                  <div className="form-outline mb-4">
-                    <input type="text" value={title} onChange={handleChange('title')} className="form-control" required />
-                  </div>
-                  <span>Veuillez saisir le contenu de la vidéo</span>
-                  <ReactQuill onChange={handleBody} value={body} className="quill_form" modules={QuillModules} formats={QuillFormats} placeholder="Saisissez le contenu de la page de la vidéo..."/>
-                </div>
-              </div>
+                    <div className="row">
+                        <div className='col-lg-8 col-md-8 col-sm-12'>
+                            <span>Veuillez saisir le titre de la vidéo</span>
+                            <div className="form-outline mb-4">
+                                <input type="text" value={title} onChange={handleChange('title')} className="form-control" required />
+                            </div>
+                            <span>Veuillez saisir le contenu de la vidéo</span>
+                            <RichTextEditor onChange={handleBody} value={body} placeholder="Saisissez le contenu de la page de la vidéo..." />
+                        </div>
+                    </div>
 
-            <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Modifier</button>
-           
-            </form>
+                    <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Modifier</button>
 
-           
+                </form>
             </>
         )
     }

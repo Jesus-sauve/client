@@ -55,7 +55,20 @@ export const updatePresentation = (presentation, slug) => {
         .catch(err => console.log(err));
 };
 
+export const removePresentation = (slug) => {
 
+    return fetch(`${API}/presentation/${slug}`, {
+        method: 'DELETE',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err));
+};
 
 
 

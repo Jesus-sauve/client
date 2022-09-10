@@ -25,7 +25,7 @@ function Categories() {
 
     const loadCategories = () => {
         getCategories().then(data => {
-            if(data.error) {
+            if (data.error) {
                 console.log(data.error);
             } else {
                 setValues({ ...values, categories: data })
@@ -68,20 +68,19 @@ function Categories() {
                     layout: 'topRight',
                     text: "catégorie supprimée",
                     timeout: 3000
-                  }).show();
+                }).show();
             }
         });
     };
 
     const handleChange = e => {
-        setValues({...values, name: e.target.value, error: false, success: false, removed: ''});
+        setValues({ ...values, name: e.target.value, error: false, success: false, removed: '' });
     }
 
     const clickSubmit = e => {
         e.preventDefault()
-        // console.log('Catégorie créée');
         create({ name }).then(data => {
-            if(data.error) {
+            if (data.error) {
                 setValues({ ...values, error: data.error, success: false });
                 new Noty({
                     type: 'error',
@@ -89,11 +88,12 @@ function Categories() {
                     layout: 'topRight',
                     text: data.error,
                     timeout: 3000
-                  }).show();
+                }).show();
             } else {
+                showCategories()
                 setValues({ ...values, error: false, success: true, name: '' });
                 new Noty({
-                    type: 'success',
+                    type: 'info',
                     theme: 'metroui',
                     layout: 'topRight',
                     text: `Nouvelle catégorie créée`,
@@ -103,47 +103,47 @@ function Categories() {
         })
     }
 
-  return (
-    <>
-    <Head>
-        <title>Basebiblique | Catégories</title>
-    </Head>
-      <HeaderOther />
-        <div className="all_pages">
-          <div className='container categorie_page'>
-            <Link href="/admin">
-                <a className="btn btn-dark btn-retour">
-                    Retour
-                </a> 
-            </Link>
-            <h1 className='h1'>Catégories</h1>
-            <div className="row">
-                <div className='col-lg-8 col-md-8 col-sm-12'>
-                    <form onSubmit={clickSubmit}>
-                    <span>Veuillez saisir le nom de la Catégorie</span>
+    return (
+        <>
+            <Head>
+                <title>Basebiblique | Catégories</title>
+            </Head>
+            <HeaderOther />
+            <div className="all_pages">
+                <div className='container categorie_page'>
+                    <Link href="/admin">
+                        <a className="btn btn-dark btn-retour">
+                            Retour
+                        </a>
+                    </Link>
+                    <h1 className='h1'>Catégories</h1>
+                    <div className="row">
+                        <div className='col-lg-8 col-md-8 col-sm-12'>
+                            <form onSubmit={clickSubmit}>
+                                <span>Veuillez saisir le nom de la Catégorie</span>
 
-                    <div className="form-floating my-4 w-75">
-                        <input onChange={handleChange} type="text" value={name} id="textCategorie" className="form-control" required placeholder="Nom de la Catégorie"/>
-                        <label className="form-label" htmlFor="textCategorie">Nom de la Catégorie*</label>
+                                <div className="form-floating my-4 w-75">
+                                    <input onChange={handleChange} type="text" value={name} id="textCategorie" className="form-control" required placeholder="Nom de la Catégorie" />
+                                    <label className="form-label" htmlFor="textCategorie">Nom de la Catégorie*</label>
+                                </div>
+
+                                <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Créer</button>
+                            </form>
+                        </div>
+                        <div className='col-lg-4 col-md-4 col-sm-12' style={{ backgroundColor: '#c5a54621', padding: '20px', borderRadius: '5px' }}>
+                            <span>Liste de toutes les catégories</span><br />
+                            {showCategories()}
+                        </div>
                     </div>
+                </div>
 
-                        <button className="submit_Form btn myBtn mt-2 text-black" type="submit">Créer</button>
-                    </form>
-                </div>
-                <div className='col-lg-4 col-md-4 col-sm-12' style={{ backgroundColor: '#c5a54621', padding: '20px', borderRadius: '5px' }}>
-                    <span>Liste de toutes les catégories</span><br />
-                    {showCategories()}
-                </div>
+
             </div>
-          </div>
-
-
-        </div>
-        <div className='container'>
-          <hr className="my-5" />
-        </div>
-      <Footer />
-    </>
-  );
+            <div className='container'>
+                <hr className="my-5" />
+            </div>
+            <Footer />
+        </>
+    );
 };
 export default Categories;

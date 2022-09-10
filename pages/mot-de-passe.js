@@ -6,7 +6,6 @@ import Noty from 'noty';
 import { Context } from "../context";
 import { useRouter } from "next/router";
 import { API } from '../config';
-import Reveal from 'react-reveal/Fade';
 import Head from 'next/head';
 import Footer from '../components/Footer';
 import HeaderOther from '../components/HeaderOther';
@@ -39,7 +38,7 @@ const Password = () => {
             setSuccess(true);
             new Noty({
                 type: 'success',
-                theme: 'bootstrap-v4',
+                theme: 'metroui',
                 layout: 'topRight',
                 text: `Merci de vérifier votre boite mail`,
                 timeout: 3000
@@ -47,7 +46,7 @@ const Password = () => {
         } catch (err) {
             new Noty({
                 type: 'success',
-                theme: 'bootstrap-v4',
+                theme: 'metroui',
                 layout: 'topRight',
                 text: `${err.response.data}`,
                 timeout: 3000
@@ -58,8 +57,6 @@ const Password = () => {
 
     const handleResetPassword = async (e) => {
         e.preventDefault();
-        // console.log(email, code, newPassword);
-        // return;
         try {
           setLoading(true);
           const { data } = await axios.post(`${API}/reset-password`, {
@@ -73,7 +70,7 @@ const Password = () => {
           setLoading(false);
           new Noty({
             type: 'success',
-            theme: 'bootstrap-v4',
+            theme: 'metroui',
             layout: 'topRight',
             text: `Votre mot de passe a bien été réinitialisé`,
             timeout: 3000
@@ -84,7 +81,7 @@ const Password = () => {
           setLoading(false);
           new Noty({
             type: 'success',
-            theme: 'bootstrap-v4',
+            theme: 'metroui',
             layout: 'topRight',
             text: `${err.response.data}`,
             timeout: 3000
@@ -106,7 +103,6 @@ const Password = () => {
                         <p>Merci de saisir votre e-mail afin de réinitialiser votre mot de passe</p>
     
                           <div className='formulaire'>
-                          <Reveal left>
                             <form className="form_custom" style={{ width: 'auto', marginTop: '5em' }}onSubmit={success ? handleResetPassword : handleSubmit}>
                     <div className="form-floating mb-3">
                       <input 
@@ -168,7 +164,6 @@ const Password = () => {
                     </p>
                     </div>
                     </form>
-                    </Reveal>
                   </div>
                 </div>
             </div>

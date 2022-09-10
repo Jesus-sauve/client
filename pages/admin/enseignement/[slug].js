@@ -10,22 +10,22 @@ function Enseignement() {
   return (
     <>
       <Head>
-          <title>Basebiblique | Enseignements</title>
+        <title>Basebiblique | Enseignements</title>
       </Head>
       <HeaderOther />
-        <div className="all_pages">
-          <div className='container'>
-          <Link href="/admin/enseignement/gestion">
-              <a className="btn m-2 btn-dark btn-retour">
-                  Retour
-              </a> 
-          </Link>
-            <Update />
-          </div>
-        </div>
+      <div className="all_pages">
         <div className='container'>
-          <hr className="my-5" />
+          <Link href="/admin/enseignement/gestion">
+            <a className="btn m-2 btn-dark btn-retour">
+              Retour
+            </a>
+          </Link>
+          <Update />
         </div>
+      </div>
+      <div className='container'>
+        <hr className="my-5" />
+      </div>
       <Footer />
     </>
   );
